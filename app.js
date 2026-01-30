@@ -1,19 +1,35 @@
 let treinoData = null;
 let treinoAtual = null;
 
-// --- VARIÁVEIS GLOBAIS DO CALENDÁRIO ---
+// Variáveis Globais
 let dataReferencia = new Date();
-let modoVisualizacao = 'mensal'; // Começa mensal
+let modoVisualizacao = 'mensal';
 
 // --- INICIALIZAÇÃO ---
 document.addEventListener('DOMContentLoaded', () => {
     carregarPerfil();
-    renderizarCalendario(); // Renderiza o calendário logo de cara
+    renderizarCalendario();
+    
+    // Carrega o treino selecionado no dropdown
+    const fichaSelecionada = document.getElementById('workout-select').value;
+    carregarJSON(fichaSelecionada);
+});
 
-    // Carrega o JSON
-    fetch('data/hipertrofia.json')
+// --- FUNÇÃO PARA TROCAR DE FICHA ---
+function trocarFicha() {
+    const novaFicha = document.getElementById('workout-select').value;
+    // Reseta a visualização para o menu
+    voltarMenu();
+    document.getElementById('workout-title').innerText = "Carregando Nova Ficha...";
+    // Carrega o novo arquivo
+    carregarJSON(novaFicha);
+}
+
+function carregarJSON(arquivo) {
+    // ATENÇÃO: Os arquivos precisam estar na pasta 'data'
+    fetch(`data/${arquivo}`)
         .then(res => {
-            if (!res.ok) throw new Error("Erro ao ler JSON");
+            if (!res.ok) throw new Error(`Erro ao ler ${arquivo}`);
             return res.json();
         })
         .then(data => {
@@ -23,22 +39,19 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(err => {
             console.error(err);
-            document.getElementById('workout-title').innerText = "Erro ao carregar treino";
+            document.getElementById('workout-title').innerText = "Erro: " + err.message;
+            document.getElementById('workout-title').style.color = "red";
         });
-});
+}
 
-// --- FUNÇÕES GLOBAIS (FORA DO DOMContentLoaded) ---
-
-// 1. Troca entre Mês e Semana
+// --- CALENDÁRIO ---
 function alternarModo(modo) {
     modoVisualizacao = modo;
-    // Atualiza botões
     document.getElementById('btn-view-month').className = modo === 'mensal' ? 'active' : '';
     document.getElementById('btn-view-week').className = modo === 'semanal' ? 'active' : '';
     renderizarCalendario();
 }
 
-// 2. Navega (Voltar/Avançar)
 function navegarCalendario(direcao) {
     if (modoVisualizacao === 'mensal') {
         dataReferencia.setMonth(dataReferencia.getMonth() + direcao);
@@ -48,7 +61,6 @@ function navegarCalendario(direcao) {
     renderizarCalendario();
 }
 
-// 3. Renderiza o Calendário (O Cérebro)
 function renderizarCalendario() {
     const calendarDays = document.getElementById('calendar-days');
     const labelTitulo = document.getElementById('calendar-month-year');
@@ -58,7 +70,6 @@ function renderizarCalendario() {
     calendarDays.innerHTML = '';
 
     if (modoVisualizacao === 'mensal') {
-        // --- VISÃO MENSAL ---
         labelTitulo.innerText = `${meses[dataReferencia.getMonth()]} ${dataReferencia.getFullYear()}`;
         
         const ano = dataReferencia.getFullYear();
@@ -66,21 +77,13 @@ function renderizarCalendario() {
         const primeiroDiaSemana = new Date(ano, mes, 1).getDay();
         const totalDiasMes = new Date(ano, mes + 1, 0).getDate();
 
-        // Espaços vazios
-        for (let i = 0; i < primeiroDiaSemana; i++) {
-            calendarDays.appendChild(document.createElement('div'));
-        }
-        // Dias
-        for (let d = 1; d <= totalDiasMes; d++) {
-            criarDiaVisual(new Date(ano, mes, d), historico, calendarDays);
-        }
+        for (let i = 0; i < primeiroDiaSemana; i++) calendarDays.appendChild(document.createElement('div'));
+        for (let d = 1; d <= totalDiasMes; d++) criarDiaVisual(new Date(ano, mes, d), historico, calendarDays);
 
     } else {
-        // --- VISÃO SEMANAL ---
         const diaDaSemana = dataReferencia.getDay();
         const domingo = new Date(dataReferencia);
         domingo.setDate(dataReferencia.getDate() - diaDaSemana);
-
         const sabado = new Date(domingo);
         sabado.setDate(domingo.getDate() + 6);
 
@@ -96,35 +99,39 @@ function renderizarCalendario() {
     }
 }
 
-// Helper para criar o quadradinho do dia
+// Cria o dia com a "Etiqueta" (A, B, C...)
 function criarDiaVisual(data, historico, container) {
     const div = document.createElement('div');
     div.className = 'calendar-day';
     div.innerText = data.getDate();
 
-    // Formata DD/MM/AAAA
     const diaF = String(data.getDate()).padStart(2, '0');
     const mesF = String(data.getMonth() + 1).padStart(2, '0');
     const anoF = data.getFullYear();
     const chaveData = `${diaF}/${mesF}/${anoF}`;
 
-    // Hoje?
     const hoje = new Date();
-    if (data.toDateString() === hoje.toDateString()) {
-        div.classList.add('today');
-    }
+    if (data.toDateString() === hoje.toDateString()) div.classList.add('today');
 
-    // Tem Treino?
     const treinos = historico.filter(h => h.data === chaveData);
     if (treinos.length > 0) {
         div.classList.add('has-workout');
+        
+        // Pega a letra do treino (Ex: "TREINO A" -> Pega "A")
+        const nomeTreino = treinos[0].nome || "";
+        const letra = nomeTreino.split(' ').pop(); 
+        
+        const badge = document.createElement('span');
+        badge.className = 'workout-badge';
+        badge.innerText = letra;
+        div.appendChild(badge);
+
         div.onclick = () => abrirDetalhesData(treinos[0]);
     }
-
     container.appendChild(div);
 }
 
-// --- MENUS E INTERAÇÃO ---
+// --- MENUS ---
 function renderMenu() {
     const menu = document.getElementById('days-menu');
     menu.innerHTML = '';
@@ -173,11 +180,11 @@ function voltarMenu() {
     treinoAtual = null;
 }
 
+// --- SALVAR ---
 function concluirTreino() {
     if (!treinoAtual) return;
     if (!confirm("Salvar treino?")) return;
 
-    // Salva recordes
     treinoAtual.exercicios.forEach((ex, index) => {
         const input = document.getElementById(`input_peso_${index}`);
         const peso = parseFloat(input.value);
@@ -188,14 +195,12 @@ function concluirTreino() {
         }
     });
 
-    // Salva histórico
     const historico = JSON.parse(localStorage.getItem('workout_history')) || [];
     const hoje = new Date();
     const dia = String(hoje.getDate()).padStart(2, '0');
     const mes = String(hoje.getMonth() + 1).padStart(2, '0');
     const ano = hoje.getFullYear();
     
-    // Captura cargas
     const cargas = treinoAtual.exercicios.map((ex, index) => {
         return { exercicio: ex.nome, carga: document.getElementById(`input_peso_${index}`).value || 0 };
     });
@@ -204,7 +209,7 @@ function concluirTreino() {
     localStorage.setItem('workout_history', JSON.stringify(historico));
     
     salvarPerfil();
-    renderizarCalendario(); // Atualiza calendário
+    renderizarCalendario();
     alert("Treino Salvo!");
     voltarMenu();
 }
