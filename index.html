@@ -3,51 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gym Tracker - Gustavo</title>
+    <title>FITNESS GYM TRACKER</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
 
+    <div class="bg-overlay"></div>
+
     <div class="container">
+        <header>
+            <div class="logo-area">
+                <span class="material-icons">fitness_center</span>
+                <h1>FITNESS <span class="highlight">GYM</span></h1>
+            </div>
+            <p id="workout-title">Carregando Treino...</p>
+        </header>
+
         <div class="user-profile">
             <div class="profile-item">
-                <label>Peso Atual (kg)</label>
-                <input type="number" id="user-weight" placeholder="00.0" onchange="salvarPerfil()">
+                <label>PESO ATUAL (KG)</label>
+                <input type="number" id="user-weight" placeholder="00.0">
             </div>
             <div class="profile-item">
-                <label>Minha Meta</label>
-                <input type="text" id="user-goal" placeholder="Ex: Secar" onchange="salvarPerfil()">
+                <label>META</label>
+                <input type="text" id="user-goal" placeholder="DEFINIÇÃO">
             </div>
         </div>
 
-        <header>
-            <h1>GYM TRACKER</h1>
-            <p id="workout-title">Carregando...</p>
-        </header>
-
-        <div id="days-menu" class="grid-menu"></div>
+        <div id="days-menu" class="grid-menu">
+            </div>
 
         <div id="history-section">
-            <h3>📅 Histórico Recente</h3>
+            <h3><span class="highlight">///</span> ÚLTIMOS TREINOS</h3>
             <ul id="history-list">
-                <li style="color: #666; font-size: 0.9rem;">Nenhum treino registrado ainda.</li>
+                <li class="empty-msg">Nenhum registro ainda.</li>
             </ul>
         </div>
 
         <main id="workout-area" class="hidden">
-            <button onclick="voltarMenu()" class="btn-back">← Voltar</button>
-            <h2 id="current-day-title"></h2>
+            <div class="area-header">
+                <button onclick="voltarMenu()" class="btn-back">VOLTAR</button>
+                <h2 id="current-day-title">DIA A</h2>
+            </div>
             
-            <div id="exercises-list"></div>
+            <div id="exercises-list">
+                </div>
 
-            <button class="btn-finish" onclick="concluirTreino()">✅ Finalizar Treino de Hoje</button>
+            <button class="btn-finish" onclick="concluirTreino()">
+                CONFIRMAR E FINALIZAR TREINO
+            </button>
         </main>
     </div>
 
     <div id="video-modal" class="modal hidden">
         <div class="modal-content">
-            <span class="close-modal" onclick="fecharVideo()">&times;</span>
+            <div class="modal-header">
+                <span>EXECUÇÃO</span>
+                <span class="close-modal" onclick="fecharVideo()">✕</span>
+            </div>
             <div id="video-container"></div>
         </div>
     </div>
@@ -55,4 +71,3 @@
     <script src="app.js"></script>
 </body>
 </html>
-
