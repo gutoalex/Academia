@@ -1,0 +1,217 @@
+{
+  "id": "hipertrofia_fibras_ii_v5",
+  "titulo": "Hipertrofia e Ativação de Fibras Tipo II",
+  "nivel": "Avançado",
+  "autor": "Gustavo",
+  "descricao": "Foco em fibras rápidas. Substituição de Supino Reto por Máquina e Stiff por Flexora.",
+  "dias": [
+    {
+      "letra": "A",
+      "foco": "Peito, Ombro e Tríceps",
+      "exercicios": [
+        {
+          "nome": "Supino máquina convergente",
+          "series": 5,
+          "repeticoes": "6-8",
+          "descanso_segundos": 90,
+          "observacao": "Trajetória convergente imita o supino livre. Foque na contração máxima.",
+          "video_id": "SHzdSEhSyng"
+        },
+        {
+          "nome": "Supino inclinado halteres",
+          "series": 4,
+          "repeticoes": "6-10",
+          "descanso_segundos": 90,
+          "observacao": "Banco 30-45°, trajetória em arco.",
+          "video_id": "ZaNyRjpoki8"
+        },
+        {
+          "nome": "Crucifixo máquina/halter (pec deck)",
+          "series": 3,
+          "repeticoes": "10-12",
+          "descanso_segundos": 60,
+          "observacao": "Peitoral isolado; cotovelos levemente flexionados.",
+          "video_id": "MENdoLpyj7c"
+        },
+        {
+          "nome": "Desenvolvimento militar barra",
+          "series": 4,
+          "repeticoes": "6-10",
+          "descanso_segundos": 90,
+          "observacao": "Empurre a barra acima da cabeça; core firme.",
+          "video_id": ""
+        },
+        {
+          "nome": "Elevação lateral halteres",
+          "series": 3,
+          "repeticoes": "12",
+          "descanso_segundos": 60,
+          "observacao": "Leve inclinação do tronco; suba até a linha do ombro.",
+          "video_id": ""
+        },
+        {
+          "nome": "Triceps testa (skullcrusher)",
+          "series": 4,
+          "repeticoes": "8-12",
+          "descanso_segundos": 60,
+          "observacao": "Desça atrás da testa; antebraços se movem.",
+          "video_id": ""
+        }
+      ]
+    },
+    {
+      "letra": "B",
+      "foco": "Costas e Bíceps",
+      "exercicios": [
+        {
+          "nome": "Barra fixa (pull-up)",
+          "series": 5,
+          "repeticoes": "Falha (6-12)",
+          "descanso_segundos": 120,
+          "observacao": "Pegada pronada; peito ao encontro da barra.",
+          "video_id": ""
+        },
+        {
+          "nome": "Remada curvada barra",
+          "series": 4,
+          "repeticoes": "6-10",
+          "descanso_segundos": 90,
+          "observacao": "Inclinação 45°; puxe cotovelos para trás.",
+          "video_id": ""
+        },
+        {
+          "nome": "Puxada alta frente (lat pulldown)",
+          "series": 3,
+          "repeticoes": "8-12",
+          "descanso_segundos": 60,
+          "observacao": "Segure mais aberto; puxe até o peito.",
+          "video_id": ""
+        },
+        {
+          "nome": "Levantamento terra (deadlift)",
+          "series": 4,
+          "repeticoes": "6-8",
+          "descanso_segundos": 120,
+          "observacao": "Pés sob a barra; coluna neutra.",
+          "video_id": ""
+        },
+        {
+          "nome": "Rosca direta barra",
+          "series": 4,
+          "repeticoes": "8-12",
+          "descanso_segundos": 60,
+          "observacao": "Cotovelos fixos ao lado do tronco.",
+          "video_id": ""
+        },
+        {
+          "nome": "Rosca martelo",
+          "series": 3,
+          "repeticoes": "10-12",
+          "descanso_segundos": 60,
+          "observacao": "Pegada neutra; foco braquiorradial/braquial.",
+          "video_id": ""
+        }
+      ]
+    },
+    {
+      "letra": "C",
+      "foco": "Pernas e Core",
+      "exercicios": [
+        {
+          "nome": "Agachamento livre barra",
+          "series": 5,
+          "repeticoes": "6-8",
+          "descanso_segundos": 120,
+          "observacao": "Desça até a paralela (ou mais).",
+          "video_id": ""
+        },
+        {
+          "nome": "Leg press",
+          "series": 4,
+          "repeticoes": "8-10",
+          "descanso_segundos": 90,
+          "observacao": "Evite estender totalmente os joelhos.",
+          "video_id": ""
+        },
+        {
+          "nome": "Cadeira flexora sentada",
+          "series": 4,
+          "repeticoes": "8-12",
+          "descanso_segundos": 60,
+          "observacao": "Sente-se e flexione os joelhos; quadris apoiados.",
+          "video_id": ""
+        },
+        {
+          "nome": "Cadeira extensora",
+          "series": 3,
+          "repeticoes": "10-12",
+          "descanso_segundos": 60,
+          "observacao": "Estenda sem travar o joelho.",
+          "video_id": ""
+        },
+        {
+          "nome": "Panturrilha em pé (máquina)",
+          "series": 5,
+          "repeticoes": "12-15",
+          "descanso_segundos": 45,
+          "observacao": "Amplitude completa: descer e subir ao máximo.",
+          "video_id": ""
+        },
+        {
+          "nome": "Prancha (Core)",
+          "series": 3,
+          "repeticoes": "30-60s",
+          "descanso_segundos": 45,
+          "observacao": "Alinhe cabeça-quadris-tornozelos.",
+          "video_id": ""
+        }
+      ]
+    },
+    {
+      "letra": "D",
+      "foco": "Intensidade e Potência",
+      "exercicios": [
+        {
+          "nome": "Saltos pliométricos (box jump)",
+          "series": 6,
+          "repeticoes": "8",
+          "descanso_segundos": 90,
+          "observacao": "Aterre suave; foque na potência.",
+          "video_id": ""
+        },
+        {
+          "nome": "Supino excêntrica lenta",
+          "series": 4,
+          "repeticoes": "6-8",
+          "descanso_segundos": 90,
+          "observacao": "Desça em 3-4s; suba explosivo.",
+          "video_id": ""
+        },
+        {
+          "nome": "Agachamento frontal",
+          "series": 4,
+          "repeticoes": "6-10",
+          "descanso_segundos": 90,
+          "observacao": "Pegada frontal/clean; cotovelos altos.",
+          "video_id": ""
+        },
+        {
+          "nome": "Remada explosiva",
+          "series": 3,
+          "repeticoes": "8-10",
+          "descanso_segundos": 90,
+          "observacao": "Puxada rápida mantendo controle.",
+          "video_id": ""
+        },
+        {
+          "nome": "Sprint (Esteira/Bike)",
+          "series": 6,
+          "repeticoes": "20-30s",
+          "descanso_segundos": 90,
+          "observacao": "Esforço 9-10/10.",
+          "video_id": ""
+        }
+      ]
+    }
+  ]
+}
