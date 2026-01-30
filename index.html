@@ -34,13 +34,17 @@
 
         <div id="history-section">
             <div class="calendar-header">
-                <h3 style="margin:0"><span class="highlight">///</span> HISTÓRICO</h3>
-                <div class="calendar-nav">
-                    <button onclick="mudarMes(-1)">❮</button>
-                    <span id="calendar-month-year">JANEIRO 2026</span>
-                    <button onclick="mudarMes(1)">❯</button>
-                </div>
-            </div>
+    <div class="view-switch">
+        <button id="btn-view-month" class="active" onclick="alternarModo('mensal')">MÊS</button>
+        <button id="btn-view-week" onclick="alternarModo('semanal')">SEMANA</button>
+    </div>
+    
+    <div class="calendar-nav">
+        <button onclick="navegarCalendario(-1)">❮</button>
+        <span id="calendar-month-year">JANEIRO</span>
+        <button onclick="navegarCalendario(1)">❯</button>
+    </div>
+</div>
             
             <div class="weekdays-grid">
                 <div>D</div><div>S</div><div>T</div><div>Q</div><div>Q</div><div>S</div><div>S</div>
@@ -87,3 +91,4 @@
     <script src="app.js"></script>
 </body>
 </html>
+
