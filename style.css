@@ -139,3 +139,69 @@ iframe { width: 100%; height: 300px; border: none; }
 .hidden {
     display: none !important;
 }
+/* Barra de Perfil */
+.user-profile {
+    display: flex;
+    justify-content: space-between;
+    background: #2a2a2a;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #444;
+}
+
+.profile-item {
+    display: flex;
+    flex-direction: column;
+    width: 48%;
+}
+
+.profile-item input {
+    background: #121212;
+    border: 1px solid #333;
+    color: var(--secondary);
+    padding: 8px;
+    border-radius: 6px;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Botão Finalizar */
+.btn-finish {
+    background-color: var(--secondary);
+    color: #000;
+    border: none;
+    padding: 15px;
+    width: 100%;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+.btn-finish:active { transform: scale(0.98); }
+
+/* Lista de Histórico */
+#history-section {
+    margin-top: 30px;
+    border-top: 1px solid #333;
+    padding-top: 20px;
+}
+
+#history-list {
+    list-style: none;
+    padding: 0;
+}
+
+.history-item {
+    background: #1e1e1e;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    border-left: 3px solid var(--secondary);
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+}
+
