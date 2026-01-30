@@ -1,12 +1,18 @@
 let treinoData = null;
 let treinoAtual = null;
 
+// Variáveis do Calendário
+let dataAtual = new Date();
+let mesExibido = dataAtual.getMonth();
+let anoExibido = dataAtual.getFullYear();
+
 document.addEventListener('DOMContentLoaded', () => {
     carregarPerfil(); // Carrega o peso salvo
-    renderizarHistorico(); // Mostra o histórico lá embaixo
+    
+    // Inicia o calendário
+    renderizarCalendario(mesExibido, anoExibido);
 
-    // Tenta carregar o treino
-    // ATENÇÃO: A pasta no GitHub tem que se chamar "data"
+    // Carrega o arquivo JSON do treino
     fetch('data/hipertrofia.json')
         .then(res => {
             if (!res.ok) {
@@ -16,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(data => {
             treinoData = data;
-            // Atualiza o título e libera o menu
             document.getElementById('workout-title').innerText = data.titulo;
             renderMenu();
         })
@@ -27,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 });
 
-// --- RENDERIZAÇÃO DO MENU ---
+// --- MENU INICIAL ---
 function renderMenu() {
     const menu = document.getElementById('days-menu');
     menu.innerHTML = '';
@@ -44,7 +49,7 @@ function renderMenu() {
     });
 }
 
-// --- ABRIR O TREINO ---
+// --- ÁREA DE TREINO ---
 function abrirTreino(dia) {
     treinoAtual = dia;
     document.getElementById('days-menu').classList.add('hidden');
@@ -57,7 +62,7 @@ function abrirTreino(dia) {
     lista.innerHTML = '';
 
     dia.exercicios.forEach((ex, index) => {
-        // Busca o recorde PESSOAL salvo (Maior carga já feita)
+        // Busca recorde pessoal
         const recordePeso = localStorage.getItem(`recorde_${dia.letra}_${index}`) || 0;
         
         const card = document.createElement('div');
@@ -93,13 +98,13 @@ function voltarMenu() {
     treinoAtual = null;
 }
 
-// --- FINALIZAR TREINO (Lógica do Recorde) ---
+// --- FINALIZAR TREINO ---
 function concluirTreino() {
     if (!treinoAtual) return;
 
     if (!confirm("Finalizar o treino e salvar os recordes?")) return;
 
-    // 1. Verifica recordes
+    // 1. Verifica e salva novos recordes
     treinoAtual.exercicios.forEach((ex, index) => {
         const input = document.getElementById(`input_peso_${index}`);
         const pesoDigitado = parseFloat(input.value);
@@ -108,27 +113,32 @@ function concluirTreino() {
             const chaveRecorde = `recorde_${treinoAtual.letra}_${index}`;
             const recordeAntigo = parseFloat(localStorage.getItem(chaveRecorde)) || 0;
 
-            // SÓ SALVA SE FOR MAIOR QUE O ANTERIOR
             if (pesoDigitado > recordeAntigo) {
                 localStorage.setItem(chaveRecorde, pesoDigitado);
             }
         }
     });
 
-    // 2. Salva no histórico
+    // 2. Salva no histórico e perfil
     salvarHistoricoGeral();
-    salvarPerfil(); // Salva o peso corporal
+    salvarPerfil();
 
-    alert("Treino Concluído! Recordes atualizados. 💪");
+    alert("Treino Concluído! 💪");
     voltarMenu();
 }
 
-// --- HISTÓRICO E PERFIL ---
+// --- CALENDÁRIO E HISTÓRICO ---
 function salvarHistoricoGeral() {
     const historico = JSON.parse(localStorage.getItem('workout_history')) || [];
-    const hoje = new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
+    const hoje = new Date();
     
-    // Captura os pesos usados HOJE para detalhe
+    // Formata data como DD/MM/AAAA para bater com o calendário
+    const dia = String(hoje.getDate()).padStart(2, '0');
+    const mes = String(hoje.getMonth() + 1).padStart(2, '0');
+    const ano = hoje.getFullYear();
+    const dataFormatada = `${dia}/${mes}/${ano}`;
+    
+    // Captura os pesos usados HOJE
     const cargasUtilizadas = treinoAtual.exercicios.map((ex, index) => {
         const input = document.getElementById(`input_peso_${index}`);
         return {
@@ -138,68 +148,95 @@ function salvarHistoricoGeral() {
     });
 
     historico.unshift({
-        data: hoje,
+        data: dataFormatada,
         nome: `TREINO ${treinoAtual.letra}`,
         cargas: cargasUtilizadas
     });
 
     localStorage.setItem('workout_history', JSON.stringify(historico));
-    renderizarHistorico();
+    
+    // Atualiza o calendário visualmente
+    renderizarCalendario(mesExibido, anoExibido);
 }
 
-function renderizarHistorico() {
-    const lista = document.getElementById('history-list');
+function renderizarCalendario(mes, ano) {
+    const calendarDays = document.getElementById('calendar-days');
+    const monthLabel = document.getElementById('calendar-month-year');
+    
+    const meses = ["JANEIRO", "FEVEREIRO", "MARÇO", "ABRIL", "MAIO", "JUNHO", "JULHO", "AGOSTO", "SETEMBRO", "OUTUBRO", "NOVEMBRO", "DEZEMBRO"];
+    
+    monthLabel.innerText = `${meses[mes]} ${ano}`;
+    calendarDays.innerHTML = '';
+
+    const primeiroDiaDaSemana = new Date(ano, mes, 1).getDay();
+    const diasNoMes = new Date(ano, mes + 1, 0).getDate();
     const historico = JSON.parse(localStorage.getItem('workout_history')) || [];
 
-    if (historico.length === 0) {
-        lista.innerHTML = '<li class="history-item" style="cursor: default;">Nenhum treino registrado.</li>';
-        return;
+    // Espaços vazios
+    for (let i = 0; i < primeiroDiaDaSemana; i++) {
+        const div = document.createElement('div');
+        calendarDays.appendChild(div);
     }
 
-    lista.innerHTML = '';
-    historico.slice(0, 5).forEach((item, index) => {
-        const li = document.createElement('li');
-        li.className = 'history-item';
-        li.onclick = () => abrirDetalhesHistorico(index);
-        li.innerHTML = `<span>${item.data}</span> <strong>${item.nome}</strong>`;
-        lista.appendChild(li);
-    });
+    // Dias do mês
+    for (let dia = 1; dia <= diasNoMes; dia++) {
+        const div = document.createElement('div');
+        div.className = 'calendar-day';
+        div.innerText = dia;
+
+        // Monta a string da data deste dia para buscar no histórico
+        const diaF = String(dia).padStart(2, '0');
+        const mesF = String(mes + 1).padStart(2, '0');
+        const dataFormatada = `${diaF}/${mesF}/${ano}`;
+
+        // Marca dia atual
+        const hoje = new Date();
+        if (dia === hoje.getDate() && mes === hoje.getMonth() && ano === hoje.getFullYear()) {
+            div.classList.add('today');
+        }
+
+        // Procura treinos nesta data
+        const treinosDoDia = historico.filter(h => h.data === dataFormatada);
+
+        if (treinosDoDia.length > 0) {
+            div.classList.add('has-workout');
+            // Ao clicar, abre o último treino feito nesse dia
+            div.onclick = () => abrirDetalhesData(treinosDoDia[0]);
+        }
+
+        calendarDays.appendChild(div);
+    }
 }
 
-function salvarPerfil() {
-    const peso = document.getElementById('user-weight').value;
-    if(peso) {
-        localStorage.setItem('user_profile', JSON.stringify({ peso: peso }));
+function mudarMes(direcao) {
+    mesExibido += direcao;
+    if (mesExibido < 0) {
+        mesExibido = 11;
+        anoExibido--;
+    } else if (mesExibido > 11) {
+        mesExibido = 0;
+        anoExibido++;
     }
-}
-
-function carregarPerfil() {
-    const perfil = JSON.parse(localStorage.getItem('user_profile'));
-    // BLINDAGEM: Verifica se o elemento existe antes de tentar preencher
-    if (perfil && document.getElementById('user-weight')) {
-        document.getElementById('user-weight').value = perfil.peso || '';
-    }
+    renderizarCalendario(mesExibido, anoExibido);
 }
 
 // --- MODAIS ---
-function abrirDetalhesHistorico(index) {
-    const historico = JSON.parse(localStorage.getItem('workout_history')) || [];
-    const item = historico[index];
-    if (!item) return;
+function abrirDetalhesData(itemHistorico) {
+    if (!itemHistorico) return;
 
-    document.getElementById('history-date-title').innerText = `${item.data} - ${item.nome}`;
+    document.getElementById('history-date-title').innerText = `${itemHistorico.data} - ${itemHistorico.nome}`;
     const listaDetalhes = document.getElementById('history-details-list');
     listaDetalhes.innerHTML = '';
 
-    if (item.cargas && item.cargas.length > 0) {
-        item.cargas.forEach(c => {
+    if (itemHistorico.cargas && itemHistorico.cargas.length > 0) {
+        itemHistorico.cargas.forEach(c => {
             const li = document.createElement('li');
             li.className = 'detail-item';
             li.innerHTML = `<span>${c.exercicio}</span> <strong>${c.carga} kg</strong>`;
             listaDetalhes.appendChild(li);
         });
     } else {
-        listaDetalhes.innerHTML = '<p style="text-align:center; padding:20px; color:#666;">Sem detalhes.</p>';
+        listaDetalhes.innerHTML = '<p style="text-align:center; padding:20px; color:#666;">Sem detalhes salvos.</p>';
     }
     document.getElementById('history-modal').classList.remove('hidden');
 }
@@ -217,4 +254,19 @@ function abrirVideo(videoId) {
 function fecharVideo() {
     document.getElementById('video-container').innerHTML = '';
     document.getElementById('video-modal').classList.add('hidden');
+}
+
+// --- PERFIL ---
+function salvarPerfil() {
+    const peso = document.getElementById('user-weight').value;
+    if(peso) {
+        localStorage.setItem('user_profile', JSON.stringify({ peso: peso }));
+    }
+}
+
+function carregarPerfil() {
+    const perfil = JSON.parse(localStorage.getItem('user_profile'));
+    if (perfil && document.getElementById('user-weight')) {
+        document.getElementById('user-weight').value = perfil.peso || '';
+    }
 }
