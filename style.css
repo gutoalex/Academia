@@ -155,3 +155,55 @@ header {
 .modal-header { display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid #333; color: #fff; font-family: var(--font-title); }
 .close-modal { cursor: pointer; color: var(--neon-blue); font-weight: bold; }
 iframe { width: 100%; height: 350px; border: none; }
+
+/* Lista de Histórico Clicável */
+.history-item {
+    cursor: pointer;
+    transition: 0.2s;
+    position: relative;
+    padding-right: 30px; /* Espaço para uma setinha */
+}
+
+.history-item:hover {
+    background-color: #1a1a1a;
+    border-left: 4px solid var(--neon-blue);
+    padding-left: 14px; /* Compensa a borda */
+}
+
+/* Setinha indicando que é clicável */
+.history-item::after {
+    content: '›';
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    color: var(--neon-blue);
+    font-weight: bold;
+}
+
+/* Lista de Pesos dentro do Modal */
+.details-list {
+    list-style: none;
+    padding: 20px;
+    margin: 0;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #333;
+    padding: 10px 0;
+    color: #ccc;
+    font-size: 0.85rem;
+}
+
+.detail-item strong {
+    color: var(--neon-blue);
+    font-family: var(--font-title);
+    font-size: 1rem;
+}
+
