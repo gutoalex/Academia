@@ -19,6 +19,15 @@
                 <span class="material-icons">fitness_center</span>
                 <h1>FITNESS <span class="highlight">GYM</span></h1>
             </div>
+            
+            <div class="workout-selector-container">
+                <label>FICHA ATIVA:</label>
+                <select id="workout-select" onchange="trocarFicha()">
+                    <option value="hipertrofia.json">HIPERTROFIA FASE 1</option>
+                    <option value="hipertrofia2.json">HIPERTROFIA FASE 2</option>
+                </select>
+            </div>
+
             <p id="workout-title">Carregando Treino...</p>
         </header>
 
@@ -88,6 +97,6 @@
         </div>
     </div>
 
-    <script src="app.js?v=3"></script>
+    <script src="app.js?v=4"></script>
 </body>
 </html>
