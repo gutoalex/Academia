@@ -4,26 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gym Tracker - Gustavo</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="estilo.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
 
     <div class="container">
+        <div class="user-profile">
+            <div class="profile-item">
+                <label>Peso Atual (kg)</label>
+                <input type="number" id="user-weight" placeholder="00.0" onchange="salvarPerfil()">
+            </div>
+            <div class="profile-item">
+                <label>Minha Meta</label>
+                <input type="text" id="user-goal" placeholder="Ex: Secar" onchange="salvarPerfil()">
+            </div>
+        </div>
+
         <header>
             <h1>GYM TRACKER</h1>
-            <p id="workout-title">Carregando treino...</p>
+            <p id="workout-title">Carregando...</p>
         </header>
 
-        <div id="days-menu" class="grid-menu">
-            </div>
+        <div id="days-menu" class="grid-menu"></div>
+
+        <div id="history-section">
+            <h3>📅 Histórico Recente</h3>
+            <ul id="history-list">
+                <li style="color: #666; font-size: 0.9rem;">Nenhum treino registrado ainda.</li>
+            </ul>
+        </div>
 
         <main id="workout-area" class="hidden">
             <button onclick="voltarMenu()" class="btn-back">← Voltar</button>
             <h2 id="current-day-title"></h2>
             
-            <div id="exercises-list">
-                </div>
+            <div id="exercises-list"></div>
+
+            <button class="btn-finish" onclick="concluirTreino()">✅ Finalizar Treino de Hoje</button>
         </main>
     </div>
 
