@@ -34,17 +34,17 @@
 
         <div id="history-section">
             <div class="calendar-header">
-    <div class="view-switch">
-        <button id="btn-view-month" class="active" onclick="alternarModo('mensal')">MÊS</button>
-        <button id="btn-view-week" onclick="alternarModo('semanal')">SEMANA</button>
-    </div>
-    
-    <div class="calendar-nav">
-        <button onclick="navegarCalendario(-1)">❮</button>
-        <span id="calendar-month-year">JANEIRO</span>
-        <button onclick="navegarCalendario(1)">❯</button>
-    </div>
-</div>
+                <div class="view-switch">
+                    <button id="btn-view-month" class="active" onclick="alternarModo('mensal')">MÊS</button>
+                    <button id="btn-view-week" onclick="alternarModo('semanal')">SEMANA</button>
+                </div>
+                
+                <div class="calendar-nav">
+                    <button onclick="navegarCalendario(-1)">❮</button>
+                    <span id="calendar-month-year">DATA</span>
+                    <button onclick="navegarCalendario(1)">❯</button>
+                </div>
+            </div>
             
             <div class="weekdays-grid">
                 <div>D</div><div>S</div><div>T</div><div>Q</div><div>Q</div><div>S</div><div>S</div>
@@ -88,7 +88,6 @@
         </div>
     </div>
 
-    <script src="app.js"></script>
+    <script src="app.js?v=3"></script>
 </body>
 </html>
-
