@@ -43,7 +43,40 @@ header {
 }
 
 .highlight { color: var(--neon-blue); text-shadow: 0 0 10px rgba(0, 240, 255, 0.5); }
-#workout-title { color: var(--text-gray); font-size: 0.9rem; letter-spacing: 1px; margin-top: 5px; text-transform: uppercase; }
+#workout-title { color: var(--text-gray); font-size: 0.9rem; letter-spacing: 1px; margin-top: 10px; text-transform: uppercase; }
+
+/* SELETOR DE TREINO */
+.workout-selector-container {
+    margin-top: 15px;
+    display: inline-block;
+    border: 1px solid #333;
+    padding: 5px 15px;
+    border-radius: 8px;
+    background: #111;
+}
+
+.workout-selector-container label {
+    font-size: 0.7rem;
+    color: var(--neon-blue);
+    font-family: var(--font-title);
+    margin-right: 10px;
+}
+
+#workout-select {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-family: var(--font-body);
+    font-weight: bold;
+    font-size: 0.9rem;
+    outline: none;
+    cursor: pointer;
+}
+
+#workout-select option {
+    background: #111;
+    color: #fff;
+}
 
 /* PERFIL */
 .user-profile {
@@ -89,12 +122,7 @@ header {
 /* CALENDÁRIO */
 #history-section { margin-top: 30px; padding-top: 20px; border-top: 1px solid #222; }
 
-.calendar-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
+.calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
 
 .calendar-nav { display: flex; align-items: center; gap: 5px; }
 .calendar-nav span { font-family: var(--font-title); font-size: 0.8rem; color: #fff; min-width: 100px; text-align: center; text-transform: uppercase; }
@@ -117,6 +145,7 @@ header {
     cursor: default;
     transition: 0.3s;
     background: #0a0a0a;
+    position: relative; /* Para a etiqueta */
 }
 .calendar-day.today { border: 1px solid #fff; }
 .calendar-day.has-workout {
@@ -128,6 +157,18 @@ header {
     box-shadow: 0 0 5px rgba(0, 240, 255, 0.1);
 }
 .calendar-day.has-workout:hover { background: var(--neon-blue); color: #000; }
+
+/* Etiqueta A/B/C no dia */
+.workout-badge {
+    position: absolute;
+    bottom: 2px;
+    right: 3px;
+    font-size: 0.6rem;
+    color: var(--neon-blue);
+    font-weight: 900;
+    font-family: var(--font-title);
+    opacity: 0.8;
+}
 
 /* EXERCÍCIOS */
 .exercise-card {
