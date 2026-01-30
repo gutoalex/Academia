@@ -39,7 +39,7 @@
           "repeticoes": "6-10",
           "descanso_segundos": 90,
           "observacao": "Empurre a barra acima da cabeça; core firme.",
-          "video_id": ""
+          "video_id": "xHsnuP6r4fg"
         },
         {
           "nome": "Elevação lateral halteres",
@@ -47,7 +47,7 @@
           "repeticoes": "12",
           "descanso_segundos": 60,
           "observacao": "Leve inclinação do tronco; suba até a linha do ombro.",
-          "video_id": ""
+          "video_id": "ot9nwSC1JnA"
         },
         {
           "nome": "Triceps testa (skullcrusher)",
@@ -55,7 +55,7 @@
           "repeticoes": "8-12",
           "descanso_segundos": 60,
           "observacao": "Desça atrás da testa; antebraços se movem.",
-          "video_id": ""
+          "video_id": "40Cx-IfJhA0"
         }
       ]
     },
@@ -69,7 +69,7 @@
           "repeticoes": "Falha (6-12)",
           "descanso_segundos": 120,
           "observacao": "Pegada pronada; peito ao encontro da barra.",
-          "video_id": ""
+          "video_id": "O6u1aQQotx0"
         },
         {
           "nome": "Remada curvada barra",
@@ -77,7 +77,7 @@
           "repeticoes": "6-10",
           "descanso_segundos": 90,
           "observacao": "Inclinação 45°; puxe cotovelos para trás.",
-          "video_id": ""
+          "video_id": "e53vSzibkO0"
         },
         {
           "nome": "Puxada alta frente (lat pulldown)",
@@ -85,7 +85,7 @@
           "repeticoes": "8-12",
           "descanso_segundos": 60,
           "observacao": "Segure mais aberto; puxe até o peito.",
-          "video_id": ""
+          "video_id": "_2MfZAj98tk"
         },
         {
           "nome": "Levantamento terra (deadlift)",
@@ -93,7 +93,7 @@
           "repeticoes": "6-8",
           "descanso_segundos": 120,
           "observacao": "Pés sob a barra; coluna neutra.",
-          "video_id": ""
+          "video_id": "DjsLHZ4jxTU"
         },
         {
           "nome": "Rosca direta barra",
@@ -101,7 +101,7 @@
           "repeticoes": "8-12",
           "descanso_segundos": 60,
           "observacao": "Cotovelos fixos ao lado do tronco.",
-          "video_id": ""
+          "video_id": "dc330H9yN3Y"
         },
         {
           "nome": "Rosca martelo",
@@ -109,7 +109,7 @@
           "repeticoes": "10-12",
           "descanso_segundos": 60,
           "observacao": "Pegada neutra; foco braquiorradial/braquial.",
-          "video_id": ""
+          "video_id": "33wZzZ_siuw"
         }
       ]
     },
@@ -123,7 +123,7 @@
           "repeticoes": "6-8",
           "descanso_segundos": 120,
           "observacao": "Desça até a paralela (ou mais).",
-          "video_id": ""
+          "video_id": "vwV4izNPOh4"
         },
         {
           "nome": "Leg press",
@@ -131,7 +131,7 @@
           "repeticoes": "8-10",
           "descanso_segundos": 90,
           "observacao": "Evite estender totalmente os joelhos.",
-          "video_id": ""
+          "video_id": "NY5fw4Zaofg"
         },
         {
           "nome": "Cadeira flexora sentada",
@@ -139,7 +139,7 @@
           "repeticoes": "8-12",
           "descanso_segundos": 60,
           "observacao": "Sente-se e flexione os joelhos; quadris apoiados.",
-          "video_id": ""
+          "video_id": "T46yKiz8laY"
         },
         {
           "nome": "Cadeira extensora",
@@ -147,7 +147,7 @@
           "repeticoes": "10-12",
           "descanso_segundos": 60,
           "observacao": "Estenda sem travar o joelho.",
-          "video_id": ""
+          "video_id": "PzIfB9MiiX8"
         },
         {
           "nome": "Panturrilha em pé (máquina)",
@@ -155,7 +155,7 @@
           "repeticoes": "12-15",
           "descanso_segundos": 45,
           "observacao": "Amplitude completa: descer e subir ao máximo.",
-          "video_id": ""
+          "video_id": "o1CyKLbUPAM"
         },
         {
           "nome": "Prancha (Core)",
@@ -163,7 +163,7 @@
           "repeticoes": "30-60s",
           "descanso_segundos": 45,
           "observacao": "Alinhe cabeça-quadris-tornozelos.",
-          "video_id": ""
+          "video_id": "uxPlAbWFUDs"
         }
       ]
     },
@@ -177,7 +177,7 @@
           "repeticoes": "8",
           "descanso_segundos": 90,
           "observacao": "Aterre suave; foque na potência.",
-          "video_id": ""
+          "video_id": "ltDoUARxyq8"
         },
         {
           "nome": "Supino excêntrica lenta",
@@ -185,7 +185,7 @@
           "repeticoes": "6-8",
           "descanso_segundos": 90,
           "observacao": "Desça em 3-4s; suba explosivo.",
-          "video_id": ""
+          "video_id": "GFVibb1dnJk"
         },
         {
           "nome": "Agachamento frontal",
@@ -214,4 +214,5 @@
       ]
     }
   ]
+
 }
