@@ -5,9 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FITNESS GYM TRACKER</title>
     <link rel="stylesheet" href="style.css">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -27,25 +31,58 @@
                     <option value="hipertrofia2.json">HIPERTROFIA FASE 2</option>
                 </select>
             </div>
-
-            <p id="workout-title">Carregando Treino...</p>
         </header>
 
-        <div class="user-profile">
-            <div class="profile-item">
-                <label>PESO ATUAL (KG)</label>
-                <input type="number" id="user-weight" placeholder="00.0" style="font-size: 1.5rem;">
-            </div>
-        </div>
+        <nav class="main-nav">
+            <button class="nav-btn active" onclick="mudarAba('treino')">
+                <span class="material-icons">dumbbell</span> TREINAR
+            </button>
+            <button class="nav-btn" onclick="mudarAba('calendario')">
+                <span class="material-icons">calendar_month</span> HISTÓRICO
+            </button>
+            <button class="nav-btn" onclick="mudarAba('stats')">
+                <span class="material-icons">insights</span> GRAFICOS
+            </button>
+        </nav>
 
-        <div id="days-menu" class="grid-menu">
+        <section id="tab-treino" class="tab-content active">
+            
+            <div class="user-profile">
+                <div class="profile-item">
+                    <label>PESO ATUAL (KG)</label>
+                    <input type="number" id="user-weight" placeholder="00.0" onchange="salvarPerfil()">
+                </div>
+                <div class="backup-controls">
+                    <button onclick="baixarBackup()" title="Baixar Dados">⬇️</button>
+                    <button onclick="document.getElementById('file-input').click()" title="Restaurar Dados">⬆️</button>
+                    <input type="file" id="file-input" style="display:none" onchange="restaurarBackup(this)">
+                </div>
             </div>
 
-        <div id="history-section">
+            <p id="workout-title" class="section-title">Carregando...</p>
+
+            <div id="days-menu" class="grid-menu"></div>
+
+            <main id="workout-area" class="hidden">
+                <div class="area-header">
+                    <button onclick="voltarMenu()" class="btn-back">VOLTAR</button>
+                    <h2 id="current-day-title">DIA A</h2>
+                </div>
+                
+                <div id="exercises-list"></div>
+
+                <button class="btn-finish" onclick="concluirTreino()">
+                    CONFIRMAR E FINALIZAR TREINO
+                </button>
+            </main>
+        </section>
+
+
+        <section id="tab-calendario" class="tab-content hidden">
             <div class="calendar-header">
                 <div class="view-switch">
-                    <button id="btn-view-month" class="active" onclick="alternarModo('mensal')">MÊS</button>
-                    <button id="btn-view-week" onclick="alternarModo('semanal')">SEMANA</button>
+                    <button id="btn-view-month" onclick="alternarModo('mensal')">MÊS</button>
+                    <button id="btn-view-week" class="active" onclick="alternarModo('semanal')">SEMANA</button>
                 </div>
                 
                 <div class="calendar-nav">
@@ -60,21 +97,29 @@
             </div>
             
             <div id="calendar-days" class="days-grid"></div>
-        </div>
 
-        <main id="workout-area" class="hidden">
-            <div class="area-header">
-                <button onclick="voltarMenu()" class="btn-back">VOLTAR</button>
-                <h2 id="current-day-title">DIA A</h2>
+            <div class="legenda-cores">
+                <span><span class="dot a"></span> A</span>
+                <span><span class="dot b"></span> B</span>
+                <span><span class="dot c"></span> C</span>
+                <span><span class="dot d"></span> D</span>
             </div>
-            
-            <div id="exercises-list">
-                </div>
+        </section>
 
-            <button class="btn-finish" onclick="concluirTreino()">
-                CONFIRMAR E FINALIZAR TREINO
-            </button>
-        </main>
+
+        <section id="tab-stats" class="tab-content hidden">
+            <h3 class="chart-title">DISTRIBUIÇÃO DE TREINOS</h3>
+            <div class="chart-container">
+                <canvas id="chart-pie"></canvas>
+            </div>
+
+            <h3 class="chart-title" style="margin-top:30px">EVOLUÇÃO DE CARGA (VOLUME)</h3>
+            <p style="text-align:center; font-size:0.8rem; color:#888; margin-bottom:10px;">Comparação: Esta Semana vs. Últimas 4</p>
+            <div class="chart-container">
+                <canvas id="chart-line"></canvas>
+            </div>
+        </section>
+
     </div>
 
     <div id="video-modal" class="modal hidden">
@@ -97,6 +142,14 @@
         </div>
     </div>
 
-    <script src="app.js?v=4"></script>
+    <div id="timer-overlay" class="hidden" onclick="fecharTimer()">
+        <div class="timer-box">
+            <span>DESCANSO</span>
+            <h1 id="timer-countdown">00:00</h1>
+            <p>Toque para fechar</p>
+        </div>
+    </div>
+
+    <script src="app.js?v=5"></script>
 </body>
 </html>
