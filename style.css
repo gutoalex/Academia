@@ -1,15 +1,21 @@
 :root {
     --bg-dark: #050505;
-    --card-dark: #121212;
     --neon-blue: #00f0ff;
     --neon-purple: #bd00ff;
     --neon-green: #00ff9d;
     --neon-orange: #ff9100;
     --text-white: #ffffff;
-    --text-gray: #a0a0a0;
     --font-title: 'Orbitron', sans-serif;
     --font-body: 'Montserrat', sans-serif;
 }
+
+/* REMOVER SETAS DOS INPUTS NUMBER */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type=number] { -moz-appearance: textfield; }
 
 body {
     background-color: var(--bg-dark);
@@ -17,134 +23,96 @@ body {
     color: var(--text-white);
     font-family: var(--font-body);
     margin: 0;
-    padding: 10px;
-    padding-bottom: 80px; /* Espaço para não cortar no final */
-    min-height: 100vh;
+    padding: 15px;
+    padding-bottom: 80px;
 }
 
-.container { max-width: 600px; margin: 0 auto; position: relative; z-index: 2; }
+.container { max-width: 600px; margin: 0 auto; }
 
 /* HEADER */
-header { text-align: center; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 15px; }
-.logo-area h1 { font-family: var(--font-title); font-weight: 900; font-size: 1.8rem; margin: 0; letter-spacing: 2px; text-transform: uppercase; }
+.header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.logo-area h1 { font-family: var(--font-title); font-weight: 900; font-size: 1.5rem; margin: 0; letter-spacing: 1px; }
 .highlight { color: var(--neon-blue); text-shadow: 0 0 10px rgba(0, 240, 255, 0.5); }
-.section-title { color: var(--text-gray); font-size: 0.9rem; text-align: center; margin: 10px 0 20px 0; text-transform: uppercase; letter-spacing: 1px; }
 
-/* NAVEGAÇÃO (ABAS) */
-.main-nav {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 20px;
-    background: #111;
-    padding: 5px;
-    border-radius: 10px;
-    border: 1px solid #333;
-}
+.btn-profile { background: none; border: 1px solid #333; color: var(--neon-blue); border-radius: 50%; width: 40px; height: 40px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+.btn-profile:hover { background: var(--neon-blue); color: #000; box-shadow: 0 0 10px var(--neon-blue); }
 
-.nav-btn {
-    flex: 1;
-    background: none;
-    border: none;
-    color: #666;
-    padding: 10px;
-    border-radius: 8px;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 0.7rem;
-    font-family: var(--font-title);
-    transition: 0.3s;
-}
+.workout-selector-container { text-align: center; margin-bottom: 20px; }
+#workout-select { background: #111; border: 1px solid #333; color: #fff; padding: 8px; border-radius: 6px; font-family: var(--font-body); font-size: 0.8rem; outline: none; width: 100%; }
 
-.nav-btn .material-icons { font-size: 1.2rem; margin-bottom: 4px; }
+/* ABAS */
+.main-nav { display: flex; gap: 10px; margin-bottom: 20px; background: #111; padding: 5px; border-radius: 8px; border: 1px solid #222; }
+.nav-btn { flex: 1; background: none; border: none; color: #666; padding: 8px; border-radius: 6px; cursor: pointer; display: flex; flex-direction: column; align-items: center; font-size: 0.65rem; font-family: var(--font-title); transition: 0.3s; }
+.nav-btn .material-icons { font-size: 1.2rem; margin-bottom: 3px; }
 .nav-btn.active { background: rgba(0, 240, 255, 0.1); color: var(--neon-blue); font-weight: bold; }
 
-/* CONTEÚDO DAS ABAS */
 .tab-content.hidden { display: none; }
-.tab-content.active { display: block; animation: fadeIn 0.3s ease-in-out; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.tab-content.active { display: block; animation: fadeIn 0.3s; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-/* PERFIL E BACKUP */
-.user-profile { display: flex; align-items: end; gap: 10px; margin-bottom: 20px; background: #111; padding: 15px; border-radius: 8px; border: 1px solid #222; }
-.profile-item { flex: 1; }
-.profile-item label { display: block; font-size: 0.65rem; color: var(--neon-blue); font-weight: bold; margin-bottom: 5px; font-family: var(--font-title); }
-.profile-item input { width: 100%; background: #000; border: 1px solid #333; color: #fff; padding: 10px; border-radius: 4px; font-family: var(--font-title); font-size: 1.2rem; text-align: center; }
-.backup-controls button { background: #222; border: 1px solid #444; color: #fff; width: 40px; height: 40px; border-radius: 6px; cursor: pointer; font-size: 1rem; }
-.backup-controls button:active { background: var(--neon-blue); color: #000; }
+/* EXERCÍCIOS & SÉRIES (NOVO) */
+.grid-menu { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.card-day { background: linear-gradient(145deg, #1a1a1a, #0d0d0d); border: 1px solid #333; padding: 20px; border-radius: 8px; text-align: center; cursor: pointer; position: relative; overflow: hidden; }
+.card-day:hover { border-color: var(--neon-blue); }
 
-/* SELETOR DE TREINO */
-.workout-selector-container { margin-top: 10px; display: inline-block; border: 1px solid #333; padding: 5px 15px; border-radius: 8px; background: #0a0a0a; }
-.workout-selector-container label { font-size: 0.6rem; color: #666; font-family: var(--font-title); margin-right: 5px; }
-#workout-select { background: transparent; border: none; color: var(--neon-blue); font-family: var(--font-body); font-weight: bold; font-size: 0.8rem; outline: none; }
+.exercise-card { background: #111; border-left: 3px solid #333; margin-bottom: 20px; padding: 15px; border-radius: 0 8px 8px 0; border: 1px solid #222; }
+.exercise-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+.exercise-header h3 { margin: 0; font-family: var(--font-title); font-size: 0.9rem; color: #fff; width: 75%; }
+.btn-video { background: transparent; border: 1px solid var(--neon-blue); color: var(--neon-blue); padding: 3px 8px; font-size: 0.6rem; cursor: pointer; border-radius: 4px; }
 
-/* EXERCÍCIOS */
-.grid-menu { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-.card-day { background: linear-gradient(145deg, #1a1a1a, #0d0d0d); border: 1px solid #333; padding: 25px; border-radius: 8px; text-align: center; cursor: pointer; transition: 0.3s; position: relative; overflow: hidden; }
-.card-day:hover { transform: translateY(-3px); border-color: var(--neon-blue); }
-.card-day h2 { font-family: var(--font-title); color: #fff; margin: 0; font-size: 1.5rem; }
-.card-day span { color: var(--text-gray); font-size: 0.7rem; display: block; margin-top: 5px; }
+.meta-tags { display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap; }
+.tag { font-size: 0.7rem; background: #000; padding: 4px 8px; border-radius: 4px; color: #888; border: 1px solid #333; }
+.timer-btn { color: var(--neon-orange); border-color: var(--neon-orange); cursor: pointer; }
 
-.exercise-card { background: rgba(20, 20, 20, 0.8); border-left: 4px solid #333; margin-bottom: 20px; padding: 15px; border-radius: 0 8px 8px 0; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
-.exercise-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px; }
-.exercise-header h3 { margin: 0; font-family: var(--font-title); font-size: 0.95rem; color: #fff; text-transform: uppercase; width: 75%; }
-.btn-video { background: transparent; border: 1px solid var(--neon-blue); color: var(--neon-blue); padding: 4px 10px; font-size: 0.65rem; cursor: pointer; border-radius: 4px; }
+/* GRID DE SÉRIES (O IMPORTANTE) */
+.sets-container { display: flex; flex-direction: column; gap: 8px; }
+.set-row { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.03); padding: 8px; border-radius: 4px; }
+.set-label { font-size: 0.7rem; color: #666; font-family: var(--font-title); width: 20px; text-align: center; }
+.set-input-group { flex: 1; display: flex; align-items: center; gap: 5px; }
+.set-input-group label { font-size: 0.6rem; color: #555; }
+.set-input { width: 100%; background: transparent; border: none; border-bottom: 1px solid #444; color: #fff; text-align: center; font-size: 1rem; font-weight: bold; padding: 2px; }
+.set-input:focus { border-color: var(--neon-blue); outline: none; }
 
-/* METADATA E TIMER */
-.meta-row { display: flex; gap: 10px; margin-bottom: 8px; }
-.meta-tag { font-size: 0.75rem; background: #000; padding: 4px 8px; border-radius: 4px; color: #ccc; border: 1px solid #333; }
-.timer-btn { cursor: pointer; border-color: var(--neon-orange); color: var(--neon-orange); }
-.timer-btn:active { background: var(--neon-orange); color: #000; }
-
-/* INPUTS DE CARGA E REPS */
-.input-row { display: flex; gap: 10px; align-items: flex-end; margin-top: 15px; background: rgba(255,255,255,0.02); padding: 10px; border-radius: 6px; }
-.input-wrapper { flex: 1; }
-.input-wrapper label { display: block; font-size: 0.65rem; color: #666; margin-bottom: 3px; font-family: var(--font-title); }
-.input-wrapper input { width: 100%; background: transparent; border: none; border-bottom: 2px solid #444; color: #fff; font-size: 1.1rem; text-align: center; font-weight: bold; padding: 5px; }
-.input-wrapper input:focus { border-color: var(--neon-blue); outline: none; }
-
-/* 1RM Display */
-.rm-display { font-size: 0.7rem; color: #555; text-align: right; margin-top: 5px; min-height: 15px; }
-.rm-display strong { color: var(--neon-green); }
+/* 1RM DISPLAY & TOOLTIP */
+.rm-container { margin-top: 10px; display: flex; align-items: center; justify-content: flex-end; gap: 5px; font-size: 0.7rem; color: #666; }
+.rm-value { color: var(--neon-green); font-weight: bold; }
+.tooltip-icon { background: #333; color: #fff; border-radius: 50%; width: 14px; height: 14px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.6rem; cursor: help; position: relative; }
+.tooltip-icon:hover::after {
+    content: "1RM = Repetição Máxima Teórica. É uma estimativa do peso máximo que você aguentaria levantar uma única vez baseada nas suas reps atuais.";
+    position: absolute; bottom: 20px; right: 0; width: 200px; background: #222; border: 1px solid #444; color: #fff; padding: 10px; border-radius: 6px; z-index: 10; font-size: 0.7rem; line-height: 1.2;
+}
 
 /* CALENDÁRIO */
-.calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-.view-switch { display: flex; background: #1a1a1a; border-radius: 6px; padding: 2px; border: 1px solid #333; }
-.view-switch button { background: none; border: none; color: #666; padding: 5px 10px; font-size: 0.6rem; font-family: var(--font-title); cursor: pointer; border-radius: 4px; }
-.view-switch button.active { background: var(--neon-blue); color: #000; font-weight: bold; }
-.calendar-nav button { background: #111; border: 1px solid #333; color: var(--neon-blue); padding: 5px 10px; border-radius: 4px; cursor: pointer; }
+.calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.view-switch { background: #1a1a1a; border-radius: 6px; padding: 2px; }
+.view-switch button { background: none; border: none; color: #666; padding: 5px 10px; font-size: 0.6rem; font-family: var(--font-title); cursor: pointer; }
+.view-switch button.active { background: var(--neon-blue); color: #000; }
 .weekdays-grid, .days-grid { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; gap: 5px; }
-.weekdays-grid div { font-size: 0.6rem; color: #666; margin-bottom: 5px; }
+.calendar-day { height: 35px; display: flex; align-items: center; justify-content: center; border-radius: 4px; font-size: 0.8rem; color: #444; background: #111; position: relative; }
+.calendar-day.today { border: 1px solid #fff; }
+.calendar-day.workout-a { background: rgba(0, 240, 255, 0.2); border: 1px solid var(--neon-blue); color: #fff; }
+.calendar-day.workout-b { background: rgba(189, 0, 255, 0.2); border: 1px solid var(--neon-purple); color: #fff; }
+.calendar-day.workout-c { background: rgba(0, 255, 157, 0.2); border: 1px solid var(--neon-green); color: #fff; }
+.calendar-day.workout-d { background: rgba(255, 145, 0, 0.2); border: 1px solid var(--neon-orange); color: #fff; }
 
-.calendar-day { height: 38px; display: flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 0.8rem; color: #444; background: #0a0a0a; position: relative; }
-.calendar-day.today { border: 1px solid #fff; color: #fff; }
-
-/* CORES DOS TREINOS NO CALENDÁRIO */
-.calendar-day.workout-a { background: rgba(0, 240, 255, 0.15); border: 1px solid var(--neon-blue); color: #fff; }
-.calendar-day.workout-b { background: rgba(189, 0, 255, 0.15); border: 1px solid var(--neon-purple); color: #fff; }
-.calendar-day.workout-c { background: rgba(0, 255, 157, 0.15); border: 1px solid var(--neon-green); color: #fff; }
-.calendar-day.workout-d { background: rgba(255, 145, 0, 0.15); border: 1px solid var(--neon-orange); color: #fff; }
-
-.legenda-cores { display: flex; justify-content: center; gap: 15px; margin-top: 20px; font-size: 0.7rem; color: #888; }
-.dot { width: 8px; height: 8px; display: inline-block; border-radius: 50%; margin-right: 5px; }
-.dot.a { background: var(--neon-blue); } .dot.b { background: var(--neon-purple); }
-.dot.c { background: var(--neon-green); } .dot.d { background: var(--neon-orange); }
+/* MODAIS */
+.modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 999; display: flex; align-items: center; justify-content: center; }
+.modal-content { background: #111; border: 1px solid #333; width: 90%; max-width: 500px; border-radius: 8px; padding: 0; }
+.modal-header { padding: 15px; border-bottom: 1px solid #222; display: flex; justify-content: space-between; color: #fff; font-family: var(--font-title); }
+.close-modal { cursor: pointer; color: var(--neon-blue); }
+.profile-body { padding: 20px; }
+.profile-body input { width: 100%; background: #000; border: 1px solid #333; color: #fff; padding: 10px; font-size: 1.2rem; text-align: center; margin-top: 5px; }
+.backup-controls button { width: 100%; margin-top: 10px; background: #222; border: 1px solid #444; color: #ccc; padding: 10px; cursor: pointer; border-radius: 4px; }
 
 /* GRÁFICOS */
-.chart-container { background: #111; padding: 15px; border-radius: 8px; border: 1px solid #222; margin-bottom: 20px; }
-.chart-title { font-family: var(--font-title); font-size: 0.9rem; color: var(--neon-blue); text-align: center; margin-bottom: 15px; }
+.chart-container { background: #111; padding: 10px; border-radius: 8px; border: 1px solid #222; margin-bottom: 20px; }
+.chart-title { text-align: center; color: var(--neon-blue); font-size: 0.8rem; font-family: var(--font-title); margin-bottom: 10px; }
 
-/* TIMER OVERLAY */
-#timer-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; display: flex; align-items: center; justify-content: center; flex-direction: column; backdrop-filter: blur(5px); }
-.timer-box { text-align: center; color: #fff; }
-#timer-countdown { font-size: 5rem; font-family: var(--font-title); color: var(--neon-orange); margin: 20px 0; text-shadow: 0 0 20px rgba(255, 145, 0, 0.5); }
-
-/* UTILITÁRIOS */
+/* UTILS */
 .hidden { display: none !important; }
-.btn-back { background: none; border: none; color: #666; font-family: var(--font-title); cursor: pointer; font-size: 0.8rem; }
-.btn-finish { width: 100%; background: linear-gradient(90deg, #00f0ff, #0077ff); border: none; padding: 18px; color: #000; font-family: var(--font-title); font-weight: 900; font-size: 1rem; cursor: pointer; margin-top: 20px; border-radius: 8px; }
-.modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 999; display: flex; align-items: center; justify-content: center; }
-.modal-content { width: 95%; max-width: 600px; background: #111; border: 1px solid #333; max-height: 80vh; overflow-y: auto; }
-.details-list { list-style: none; padding: 20px; }
-.detail-item { display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 10px 0; font-size: 0.8rem; color: #ccc; }
+.btn-finish { width: 100%; background: linear-gradient(90deg, #00f0ff, #0077ff); border: none; padding: 15px; color: #000; font-family: var(--font-title); font-weight: 900; cursor: pointer; margin-top: 20px; border-radius: 6px; }
+.btn-back { background: none; border: none; color: #666; font-family: var(--font-title); cursor: pointer; }
+.section-title { text-align: center; color: #666; font-size: 0.8rem; margin: 10px 0; }
+.legenda-cores { display: flex; justify-content: center; gap: 15px; margin-top: 15px; font-size: 0.7rem; color: #888; }
+.dot { width: 8px; height: 8px; display: inline-block; border-radius: 50%; margin-right: 5px; }
+.dot.a { background: var(--neon-blue); } .dot.b { background: var(--neon-purple); } .dot.c { background: var(--neon-green); } .dot.d { background: var(--neon-orange); }
