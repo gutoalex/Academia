@@ -19,13 +19,17 @@
 
     <div class="container">
         <header>
-            <div class="logo-area">
-                <span class="material-icons">fitness_center</span>
-                <h1>FITNESS <span class="highlight">GYM</span></h1>
+            <div class="header-top">
+                <div class="logo-area">
+                    <span class="material-icons">fitness_center</span>
+                    <h1>FITNESS <span class="highlight">GYM</span></h1>
+                </div>
+                <button class="btn-profile" onclick="abrirPerfil()">
+                    <span class="material-icons">person</span>
+                </button>
             </div>
             
             <div class="workout-selector-container">
-                <label>FICHA ATIVA:</label>
                 <select id="workout-select" onchange="trocarFicha()">
                     <option value="hipertrofia.json">HIPERTROFIA FASE 1</option>
                     <option value="hipertrofia2.json">HIPERTROFIA FASE 2</option>
@@ -46,19 +50,6 @@
         </nav>
 
         <section id="tab-treino" class="tab-content active">
-            
-            <div class="user-profile">
-                <div class="profile-item">
-                    <label>PESO ATUAL (KG)</label>
-                    <input type="number" id="user-weight" placeholder="00.0" onchange="salvarPerfil()">
-                </div>
-                <div class="backup-controls">
-                    <button onclick="baixarBackup()" title="Baixar Dados">⬇️</button>
-                    <button onclick="document.getElementById('file-input').click()" title="Restaurar Dados">⬆️</button>
-                    <input type="file" id="file-input" style="display:none" onchange="restaurarBackup(this)">
-                </div>
-            </div>
-
             <p id="workout-title" class="section-title">Carregando...</p>
 
             <div id="days-menu" class="grid-menu"></div>
@@ -72,11 +63,10 @@
                 <div id="exercises-list"></div>
 
                 <button class="btn-finish" onclick="concluirTreino()">
-                    CONFIRMAR E FINALIZAR TREINO
+                    FINALIZAR TREINO
                 </button>
             </main>
         </section>
-
 
         <section id="tab-calendario" class="tab-content hidden">
             <div class="calendar-header">
@@ -95,7 +85,6 @@
             <div class="weekdays-grid">
                 <div>D</div><div>S</div><div>T</div><div>Q</div><div>Q</div><div>S</div><div>S</div>
             </div>
-            
             <div id="calendar-days" class="days-grid"></div>
 
             <div class="legenda-cores">
@@ -106,20 +95,41 @@
             </div>
         </section>
 
-
         <section id="tab-stats" class="tab-content hidden">
             <h3 class="chart-title">DISTRIBUIÇÃO DE TREINOS</h3>
             <div class="chart-container">
                 <canvas id="chart-pie"></canvas>
             </div>
 
-            <h3 class="chart-title" style="margin-top:30px">EVOLUÇÃO DE CARGA (VOLUME)</h3>
-            <p style="text-align:center; font-size:0.8rem; color:#888; margin-bottom:10px;">Comparação: Esta Semana vs. Últimas 4</p>
+            <h3 class="chart-title" style="margin-top:30px">VOLUME DE CARGA (KG TOTAIS)</h3>
+            <p style="text-align:center; font-size:0.7rem; color:#666;">Soma de (Peso x Reps) de todas as séries</p>
             <div class="chart-container">
                 <canvas id="chart-line"></canvas>
             </div>
         </section>
 
+    </div>
+
+    <div id="profile-modal" class="modal hidden">
+        <div class="modal-content small-modal">
+            <div class="modal-header">
+                <span>MEU PERFIL</span>
+                <span class="close-modal" onclick="fecharPerfil()">✕</span>
+            </div>
+            <div class="profile-body">
+                <label>PESO CORPORAL (KG)</label>
+                <input type="number" id="user-weight" placeholder="00.0" onchange="salvarPerfil()">
+                
+                <hr style="border-color:#333; margin: 20px 0;">
+                
+                <label>DADOS DO SISTEMA</label>
+                <div class="backup-controls">
+                    <button onclick="baixarBackup()">💾 Baixar Backup</button>
+                    <button onclick="document.getElementById('file-input').click()">📂 Restaurar Backup</button>
+                    <input type="file" id="file-input" style="display:none" onchange="restaurarBackup(this)">
+                </div>
+            </div>
+        </div>
     </div>
 
     <div id="video-modal" class="modal hidden">
@@ -150,6 +160,6 @@
         </div>
     </div>
 
-    <script src="app.js?v=5"></script>
+    <script src="app.js?v=6"></script>
 </body>
 </html>
