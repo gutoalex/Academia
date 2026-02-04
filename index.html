@@ -3,14 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gustavo.anjos GYM</title>
+    <title>FITNESS GYM TRACKER</title>
     <link rel="stylesheet" href="style.css">
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -26,10 +24,10 @@
                 </div>
                 
                 <div class="header-actions">
-                    <button class="btn-icon" onclick="abrirCalculadora()">
+                    <button class="btn-icon" onclick="abrirCalculadora()" title="Calculadora de Anilhas">
                         <span class="material-icons">calculate</span>
                     </button>
-                    <button class="btn-icon" onclick="abrirPerfil()">
+                    <button class="btn-icon" onclick="abrirPerfil()" title="Perfil">
                         <span class="material-icons">person</span>
                     </button>
                 </div>
@@ -69,7 +67,7 @@
 
                 <div class="notes-area">
                     <label><span class="material-icons" style="font-size:0.8rem; vertical-align:middle;">edit_note</span> NOTAS DO TREINO</label>
-                    <textarea id="workout-notes" placeholder="Como você se sentiu hoje? (Sono, energia, dores...)"></textarea>
+                    <textarea id="workout-notes" placeholder="Como foi o treino hoje? (Energia, dores, foco...)"></textarea>
                 </div>
 
                 <button class="btn-finish" onclick="concluirTreino()">FINALIZAR TREINO</button>
@@ -88,9 +86,7 @@
                     <button onclick="navegarCalendario(1)">❯</button>
                 </div>
             </div>
-            <div class="weekdays-grid">
-                <div>D</div><div>S</div><div>T</div><div>Q</div><div>Q</div><div>S</div><div>S</div>
-            </div>
+            <div class="weekdays-grid"><div>D</div><div>S</div><div>T</div><div>Q</div><div>Q</div><div>S</div><div>S</div></div>
             <div id="calendar-days" class="days-grid"></div>
             <div class="legenda-cores">
                 <span><span class="dot a"></span> A</span>
@@ -102,13 +98,9 @@
 
         <section id="tab-stats" class="tab-content hidden">
             <h3 class="chart-title">DISTRIBUIÇÃO</h3>
-            <div class="chart-container">
-                <canvas id="chart-pie"></canvas>
-            </div>
+            <div class="chart-container"><canvas id="chart-pie"></canvas></div>
             <h3 class="chart-title" style="margin-top:30px">VOLUME (KG) POR TREINO</h3>
-            <div class="chart-container">
-                <canvas id="chart-line"></canvas>
-            </div>
+            <div class="chart-container"><canvas id="chart-line"></canvas></div>
         </section>
     </div>
 
@@ -138,10 +130,7 @@
 
     <div id="profile-modal" class="modal hidden">
         <div class="modal-content small-modal">
-            <div class="modal-header">
-                <span>MEU PERFIL</span>
-                <span class="close-modal" onclick="fecharPerfil()">✕</span>
-            </div>
+            <div class="modal-header"><span>MEU PERFIL</span><span class="close-modal" onclick="fecharPerfil()">✕</span></div>
             <div class="profile-body">
                 <label>PESO CORPORAL (KG)</label>
                 <input type="number" id="user-weight" placeholder="00.0" onchange="salvarPerfil()">
@@ -177,7 +166,6 @@
         </div>
     </div>
 
-    <script src="app.js?v=8"></script>
+    <script src="app.js?v=9"></script>
 </body>
 </html>
-
