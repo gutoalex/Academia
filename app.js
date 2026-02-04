@@ -2,20 +2,17 @@ let treinoData = null;
 let treinoAtual = null;
 let timerInterval = null;
 
-// Configuração Inicial
 let dataReferencia = new Date();
 let modoVisualizacao = 'semanal';
 
 document.addEventListener('DOMContentLoaded', () => {
     carregarPerfil();
     mudarAba('treino');
-    
-    // Carrega Ficha Padrão
     const ficha = document.getElementById('workout-select').value;
     carregarJSON(ficha);
 });
 
-// --- SISTEMA DE ABAS ---
+// --- ABAS ---
 function mudarAba(abaNome) {
     document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
     document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
@@ -31,7 +28,7 @@ function mudarAba(abaNome) {
     if (abaNome === 'stats') renderizarGraficos();
 }
 
-// --- CARREGAMENTO ---
+// --- CARREGAR ---
 function carregarJSON(arquivo) {
     fetch(`data/${arquivo}`)
         .then(res => res.json())
@@ -51,7 +48,7 @@ function trocarFicha() {
     carregarJSON(nova);
 }
 
-// --- RENDERIZAÇÃO DO TREINO (LÓGICA NOVA DE SÉRIES) ---
+// --- RENDERIZAR TREINO ---
 function renderMenu() {
     const menu = document.getElementById('days-menu');
     menu.innerHTML = '';
@@ -74,13 +71,10 @@ function abrirTreino(dia) {
     lista.innerHTML = '';
 
     dia.exercicios.forEach((ex, exIndex) => {
-        // Gera HTML das linhas de séries (Loop)
         let setsHTML = '';
         for (let i = 1; i <= ex.series; i++) {
-            // Tenta recuperar carga salva da última vez para essa série específica
             const lastLoad = localStorage.getItem(`hist_${dia.letra}_${exIndex}_s${i}_load`) || '';
             const lastReps = localStorage.getItem(`hist_${dia.letra}_${exIndex}_s${i}_reps`) || '';
-
             setsHTML += `
                 <div class="set-row">
                     <span class="set-label">${i}</span>
@@ -101,27 +95,23 @@ function abrirTreino(dia) {
                 <h3>${ex.nome}</h3>
                 ${ex.video_id ? `<button class="btn-video" onclick="abrirVideo('${ex.video_id}')">▶ VÍDEO</button>` : ''}
             </div>
-            
             <div class="meta-tags">
                 <span class="tag">${ex.series} Séries</span>
                 <span class="tag">${ex.repeticoes} Reps</span>
                 <span class="tag timer-btn" onclick="iniciarTimer(${ex.descanso_segundos})">⏱ ${ex.descanso_segundos}s</span>
             </div>
-
             <div class="sets-container">
                 <div style="display:flex; justify-content:space-between; padding:0 35px 5px 35px; color:#666; font-size:0.6rem;">
                     <span>CARGA</span> <span>REPS</span>
                 </div>
                 ${setsHTML}
             </div>
-            
             <div class="rm-container">
                 <span id="rm_display_${exIndex}" class="rm-value">--</span>
-                <span class="tooltip-icon">?</span>
+                <span class="tooltip-icon" onclick="alert('1RM ESTIMADO: É o peso teórico máximo que você aguentaria levantar apenas 1 vez, calculado com base nas repetições que você fez hoje.')">?</span>
             </div>
         `;
         lista.appendChild(card);
-        // Calcula inicial
         calcular1RM(exIndex, ex.series);
     });
 }
@@ -132,52 +122,50 @@ function voltarMenu() {
     treinoAtual = null;
 }
 
-// --- CÁLCULO 1RM (MELHOR SÉRIE) ---
+// --- LÓGICA 1RM SEM RÓTULOS (FIXO) ---
 function calcular1RM(exIndex, totalSeries) {
     let maxRM = 0;
-    
-    // Varre todas as séries para achar a melhor performance
     for(let i=1; i<=totalSeries; i++) {
         const p = parseFloat(document.getElementById(`peso_${exIndex}_${i}`).value) || 0;
         const r = parseFloat(document.getElementById(`reps_${exIndex}_${i}`).value) || 0;
-        
         if(p > 0 && r > 0) {
-            // Epley Formula
             const rm = p * (1 + r/30);
             if(rm > maxRM) maxRM = rm;
         }
     }
-
     const display = document.getElementById(`rm_display_${exIndex}`);
     if(maxRM > 0) {
-        let nivel = "Iniciante";
-        if(maxRM > 60) nivel = "Intermediário";
-        if(maxRM > 100) nivel = "Avançado";
-        if(maxRM > 140) nivel = "Elite";
-        if(maxRM > 200) nivel = "Monstro"; // ;)
-
-        display.innerHTML = `1RM Est: ${Math.round(maxRM)}kg (${nivel})`;
+        // Removi os rótulos de "Iniciante/Elite". Mostra apenas a força bruta.
+        display.innerHTML = `1RM Est: <strong>${Math.round(maxRM)}kg</strong>`;
     } else {
         display.innerHTML = "--";
     }
 }
 
-// --- TIMER ---
+// --- TIMER (POPUP) ---
 function iniciarTimer(segundos) {
     document.getElementById('timer-overlay').classList.remove('hidden');
     let tempo = segundos;
     const display = document.getElementById('timer-countdown');
-    display.innerText = tempo;
+    
+    // Formata MM:SS
+    const format = (t) => {
+        const m = Math.floor(t / 60);
+        const s = t % 60;
+        return `${m < 10 ? '0'+m : m}:${s < 10 ? '0'+s : s}`;
+    };
+    
+    display.innerText = format(tempo);
     
     clearInterval(timerInterval);
     timerInterval = setInterval(() => {
         tempo--;
-        display.innerText = tempo;
+        display.innerText = format(tempo);
         if (tempo <= 0) {
             clearInterval(timerInterval);
             display.innerText = "BORA!";
-            if(navigator.vibrate) navigator.vibrate([300]);
-            setTimeout(() => document.getElementById('timer-overlay').classList.add('hidden'), 1000);
+            if(navigator.vibrate) navigator.vibrate([500, 200, 500]);
+            // Fecha automático após 2s ou espera clique
         }
     }, 1000);
 }
@@ -186,7 +174,7 @@ function fecharTimer() {
     document.getElementById('timer-overlay').classList.add('hidden');
 }
 
-// --- FINALIZAR TREINO (SALVAMENTO COMPLEXO) ---
+// --- FINALIZAR ---
 function concluirTreino() {
     if (!treinoAtual || !confirm("Salvar treino?")) return;
 
@@ -198,24 +186,17 @@ function concluirTreino() {
 
     treinoAtual.exercicios.forEach((ex, exIndex) => {
         const seriesData = [];
-        
         for(let i=1; i<=ex.series; i++) {
             const load = document.getElementById(`peso_${exIndex}_${i}`).value;
             const reps = document.getElementById(`reps_${exIndex}_${i}`).value;
-            
             if(load || reps) {
                 seriesData.push({ s: i, k: load, r: reps });
-                // Salva memória para autolayout na próxima
                 localStorage.setItem(`hist_${treinoAtual.letra}_${exIndex}_s${i}_load`, load);
                 localStorage.setItem(`hist_${treinoAtual.letra}_${exIndex}_s${i}_reps`, reps);
             }
         }
-        
         if(seriesData.length > 0) {
-            exerciciosRealizados.push({
-                nome: ex.nome,
-                sets: seriesData
-            });
+            exerciciosRealizados.push({ nome: ex.nome, sets: seriesData });
         }
     });
 
@@ -227,48 +208,11 @@ function concluirTreino() {
     });
 
     localStorage.setItem('workout_history', JSON.stringify(historico));
-    alert("Treino salvo! Foco total! 🔥");
+    alert("Treino Salvo! 💪");
     voltarMenu();
 }
 
-// --- PERFIL E BACKUP ---
-function abrirPerfil() { document.getElementById('profile-modal').classList.remove('hidden'); }
-function fecharPerfil() { document.getElementById('profile-modal').classList.add('hidden'); }
-function salvarPerfil() {
-    const p = document.getElementById('user-weight').value;
-    if(p) localStorage.setItem('user_profile', JSON.stringify({ peso: p }));
-}
-function carregarPerfil() {
-    const p = JSON.parse(localStorage.getItem('user_profile'));
-    if(p) document.getElementById('user-weight').value = p.peso || '';
-}
-
-// --- BACKUP ---
-function baixarBackup() {
-    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(localStorage));
-    const el = document.createElement('a');
-    el.setAttribute("href", dataStr);
-    el.setAttribute("download", "gym_backup.json");
-    document.body.appendChild(el);
-    el.click();
-    el.remove();
-}
-function restaurarBackup(input) {
-    const file = input.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        const data = JSON.parse(e.target.result);
-        localStorage.clear();
-        for (let key in data) localStorage.setItem(key, data[key]);
-        alert("Restaurado!");
-        location.reload();
-    };
-    reader.readAsText(file);
-}
-
-// --- CALENDÁRIO & GRÁFICOS ---
-// ... (Mesma lógica de antes, ajustada para nova estrutura de dados)
+// --- CALENDÁRIO ---
 function alternarModo(modo) {
     modoVisualizacao = modo;
     document.getElementById('btn-view-month').className = modo === 'mensal' ? 'active' : '';
@@ -287,7 +231,6 @@ function renderizarCalendario() {
     const meses = ["JAN","FEV","MAR","ABR","MAI","JUN","JUL","AGO","SET","OUT","NOV","DEZ"];
     container.innerHTML = '';
     
-    // Lógica Semanal (Padrão)
     if(modoVisualizacao === 'semanal') {
         const d = dataReferencia.getDay();
         const dom = new Date(dataReferencia);
@@ -301,7 +244,6 @@ function renderizarCalendario() {
             criarDia(dt, hist, container);
         }
     } else {
-        // Mensal
         label.innerText = `${meses[dataReferencia.getMonth()]} ${dataReferencia.getFullYear()}`;
         const ano = dataReferencia.getFullYear();
         const mes = dataReferencia.getMonth();
@@ -327,18 +269,23 @@ function criarDia(data, hist, container) {
     container.appendChild(div);
 }
 
-// GRÁFICOS CORRIGIDOS
+// --- GRÁFICOS (4 LINHAS SEPARADAS) ---
+let chartPieInstance = null;
+let chartLineInstance = null;
+
 function renderizarGraficos() {
     const hist = JSON.parse(localStorage.getItem('workout_history')) || [];
     if(hist.length === 0) return;
 
-    // Pizza
+    // PIZZA
     const count = {A:0, B:0, C:0, D:0};
     hist.forEach(h => {
         const l = h.nome.split(' ').pop();
         if(count[l]!==undefined) count[l]++;
     });
-    new Chart(document.getElementById('chart-pie'), {
+    const ctxPie = document.getElementById('chart-pie').getContext('2d');
+    if(chartPieInstance) chartPieInstance.destroy();
+    chartPieInstance = new Chart(ctxPie, {
         type: 'doughnut',
         data: {
             labels: ['A','B','C','D'],
@@ -347,42 +294,116 @@ function renderizarGraficos() {
         options: { plugins: { legend: { position:'bottom', labels:{color:'#fff'} } } }
     });
 
-    // Linha (Volume Total)
-    const ultimos = hist.slice(0, 10).reverse();
-    const labels = ultimos.map(h => h.data.substring(0,5));
-    const dataVol = ultimos.map(h => {
+    // LINHAS SEPARADAS (A, B, C, D)
+    const ultimos = hist.slice(0, 15).reverse(); // Pega últimos 15 treinos
+    const labels = ultimos.map(h => h.data.substring(0,5)); // Datas
+
+    // Prepara arrays vazios
+    const dataA = [], dataB = [], dataC = [], dataD = [];
+
+    ultimos.forEach(h => {
         let vol = 0;
-        // Soma Carga * Reps de todas as séries de todos os exercícios
         if(h.exercicios) {
-            h.exercicios.forEach(ex => {
-                ex.sets.forEach(s => vol += (parseFloat(s.k)||0) * (parseFloat(s.r)||0));
-            });
+            h.exercicios.forEach(ex => ex.sets.forEach(s => vol += (parseFloat(s.k)||0) * (parseFloat(s.r)||0)));
+        } else if (h.cargas) { // Suporte antigo
+            h.cargas.forEach(c => vol += (parseFloat(c.carga)||0) * 10);
         }
-        return vol;
+
+        const letra = h.nome.split(' ').pop();
+        // Adiciona volume no array certo, null nos outros (para Chart.js conectar pontos certos)
+        dataA.push(letra === 'A' ? vol : null);
+        dataB.push(letra === 'B' ? vol : null);
+        dataC.push(letra === 'C' ? vol : null);
+        dataD.push(letra === 'D' ? vol : null);
     });
 
-    new Chart(document.getElementById('chart-line'), {
+    const ctxLine = document.getElementById('chart-line').getContext('2d');
+    if(chartLineInstance) chartLineInstance.destroy();
+
+    chartLineInstance = new Chart(ctxLine, {
         type: 'line',
         data: {
             labels: labels,
-            datasets: [{ label:'Volume Total (kg)', data:dataVol, borderColor:'#00f0ff', tension:0.4 }]
+            datasets: [
+                { label: 'Treino A', data: dataA, borderColor: '#00f0ff', spanGaps: true, tension: 0.3 },
+                { label: 'Treino B', data: dataB, borderColor: '#bd00ff', spanGaps: true, tension: 0.3 },
+                { label: 'Treino C', data: dataC, borderColor: '#00ff9d', spanGaps: true, tension: 0.3 },
+                { label: 'Treino D', data: dataD, borderColor: '#ff9100', spanGaps: true, tension: 0.3 }
+            ]
         },
-        options: { scales:{ y:{ticks:{color:'#666'}, grid:{color:'#222'}}, x:{ticks:{color:'#666'}, grid:{display:false}} }, plugins:{legend:{display:false}} }
+        options: {
+            responsive: true,
+            scales: {
+                y: { ticks: { color: '#666' }, grid: { color: '#222' } },
+                x: { ticks: { color: '#666' }, grid: { display: false } }
+            },
+            plugins: { legend: { labels: { color: '#fff' } } }
+        }
     });
 }
 
-// Modais Extras
+// --- UTILITÁRIOS ---
+function abrirPerfil() { document.getElementById('profile-modal').classList.remove('hidden'); }
+function fecharPerfil() { document.getElementById('profile-modal').classList.add('hidden'); }
+function salvarPerfil() {
+    const p = document.getElementById('user-weight').value;
+    if(p) localStorage.setItem('user_profile', JSON.stringify({ peso: p }));
+}
+function carregarPerfil() {
+    const p = JSON.parse(localStorage.getItem('user_profile'));
+    if(p) document.getElementById('user-weight').value = p.peso || '';
+}
+function baixarBackup() {
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(localStorage));
+    const el = document.createElement('a');
+    el.setAttribute("href", dataStr);
+    el.setAttribute("download", "gym_backup.json");
+    document.body.appendChild(el);
+    el.click();
+    el.remove();
+}
+function restaurarBackup(input) {
+    const file = input.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const data = JSON.parse(e.target.result);
+        localStorage.clear();
+        for (let key in data) localStorage.setItem(key, data[key]);
+        alert("Restaurado!");
+        location.reload();
+    };
+    reader.readAsText(file);
+}
+function gerarDadosDemo() {
+    if(!confirm("Gerar dados falsos (Demo)? Isso apaga o atual.")) return;
+    const hist = [];
+    const letras = ['A', 'B', 'C', 'D'];
+    for(let i=0; i<12; i++) { // 12 dias para ter dados de todos
+        const d = new Date(); d.setDate(d.getDate() - (11-i));
+        const diaStr = String(d.getDate()).padStart(2,'0') + '/' + String(d.getMonth()+1).padStart(2,'0');
+        const carga = 20 + (i*2); // Evolução leve
+        hist.unshift({
+            data: diaStr + '/' + d.getFullYear(),
+            nome: `TREINO ${letras[i%4]}`,
+            timestamp: d.getTime(),
+            exercicios: [{ nome: "Demo Press", sets: [{s:1, k:carga, r:10}, {s:2, k:carga, r:10}] }]
+        });
+    }
+    localStorage.setItem('workout_history', JSON.stringify(hist));
+    alert("Dados Demo Criados! Veja os Gráficos.");
+    location.reload();
+}
 function abrirDetalhesData(t) {
     document.getElementById('history-date-title').innerText = t.data;
     const ul = document.getElementById('history-details-list');
     ul.innerHTML = '';
-    // Lógica para nova estrutura
     if(t.exercicios) {
         t.exercicios.forEach(ex => {
-            const bestSet = ex.sets.reduce((prev, current) => (parseFloat(prev.k) > parseFloat(current.k)) ? prev : current);
-            ul.innerHTML += `<li class="detail-item"><span>${ex.nome}</span><strong>${bestSet.k}kg x ${bestSet.r}</strong></li>`;
+            const best = ex.sets.reduce((p, c) => (parseFloat(p.k)>parseFloat(c.k))?p:c);
+            ul.innerHTML += `<li class="detail-item"><span>${ex.nome}</span><strong>${best.k}kg x ${best.r}</strong></li>`;
         });
-    } else if (t.cargas) { // Suporte legado
+    } else if (t.cargas) {
         t.cargas.forEach(c => ul.innerHTML += `<li class="detail-item"><span>${c.exercicio}</span><strong>${c.carga}kg</strong></li>`);
     }
     document.getElementById('history-modal').classList.remove('hidden');
