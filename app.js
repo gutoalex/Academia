@@ -16,21 +16,19 @@ function mudarAba(abaNome) {
     document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
     document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
     document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
-
     document.getElementById(`tab-${abaNome}`).classList.remove('hidden');
     document.getElementById(`tab-${abaNome}`).classList.add('active');
-    
     const index = abaNome === 'treino' ? 0 : abaNome === 'calendario' ? 1 : 2;
     document.querySelectorAll('.nav-btn')[index].classList.add('active');
-
     if (abaNome === 'calendario') renderizarCalendario();
     if (abaNome === 'stats') renderizarGraficos();
 }
 
-// --- CARREGAR TREINO ---
+// --- CARREGAR ---
 function carregarJSON(arquivo) {
     fetch(`data/${arquivo}`).then(res => res.json()).then(data => {
         treinoData = data;
+        document.getElementById('workout-title').innerText = data.titulo;
         renderMenu();
     }).catch(err => console.error(err));
 }
@@ -53,37 +51,28 @@ function renderMenu() {
         menu.appendChild(div);
     });
 }
-
 function abrirTreino(dia) {
     treinoAtual = dia;
     document.getElementById('days-menu').classList.add('hidden');
+    document.getElementById('workout-title').classList.add('hidden');
     document.getElementById('workout-area').classList.remove('hidden');
     document.getElementById('current-day-title').innerText = `DIA ${dia.letra} - ${dia.foco}`;
-    
     document.getElementById('workout-notes').value = '';
     const lista = document.getElementById('exercises-list');
     lista.innerHTML = '';
-
     dia.exercicios.forEach((ex, exIndex) => {
         let setsHTML = '';
         for (let i = 1; i <= ex.series; i++) {
-            // RECUPERA O ÚLTIMO PESO, MAS COLOCA NO PLACEHOLDER (CINZA) E DEIXA O VALOR VAZIO
             const lastLoad = localStorage.getItem(`hist_${dia.letra}_${exIndex}_s${i}_load`) || '';
             const lastReps = localStorage.getItem(`hist_${dia.letra}_${exIndex}_s${i}_reps`) || '';
-            
             setsHTML += `
                 <div class="set-row">
                     <span class="set-label">${i}</span>
-                    <div class="set-input-group">
-                        <input type="number" class="set-input" id="peso_${exIndex}_${i}" value="" placeholder="${lastLoad}" oninput="calcular1RM(${exIndex}, ${ex.series})">
-                    </div>
-                    <div class="set-input-group">
-                        <input type="number" class="set-input" id="reps_${exIndex}_${i}" value="" placeholder="${lastReps}" oninput="calcular1RM(${exIndex}, ${ex.series})">
-                    </div>
+                    <div class="set-input-group"><input type="number" class="set-input" id="peso_${exIndex}_${i}" value="" placeholder="${lastLoad}" oninput="calcular1RM(${exIndex}, ${ex.series})"></div>
+                    <div class="set-input-group"><input type="number" class="set-input" id="reps_${exIndex}_${i}" value="" placeholder="${lastReps}" oninput="calcular1RM(${exIndex}, ${ex.series})"></div>
                 </div>
             `;
         }
-
         const card = document.createElement('div');
         card.className = 'exercise-card';
         card.innerHTML = `
@@ -94,7 +83,7 @@ function abrirTreino(dia) {
             <div class="meta-tags">
                 <span class="tag">${ex.series} Séries</span>
                 <span class="tag timer-btn" onclick="iniciarTimer(${ex.descanso_segundos})">⏱ ${ex.descanso_segundos}s</span>
-                <input type="number" id="rpe_${exIndex}" class="rpe-input" placeholder="RPE" min="1" max="10">
+                <input type="number" id="rpe_${exIndex}" class="rpe-input" placeholder="0-10" min="0" max="10" onclick="alert('ESFORÇO (RPE):\\n\\n0 = Dormindo\\n5 = Treino fofo\\n7 = Difícil\\n9 = Quase falha\\n10 = Falha total')">
             </div>
             <div class="sets-container">
                 <div style="display:flex; justify-content:space-between; padding:0 35px 5px 35px; color:#666; font-size:0.6rem;"><span>CARGA</span> <span>REPS</span></div>
@@ -102,20 +91,20 @@ function abrirTreino(dia) {
             </div>
             <div class="rm-container">
                 <span id="rm_display_${exIndex}" class="rm-value">--</span>
-                <span class="tooltip-icon" onclick="alert('1RM: Estimativa de carga máxima baseada no que você digitar.')">?</span>
+                <span class="tooltip-icon" onclick="alert('1RM ESTIMADO: Carga máxima teórica para 1 rep.')">?</span>
             </div>
         `;
         lista.appendChild(card);
     });
 }
-
 function voltarMenu() {
     document.getElementById('workout-area').classList.add('hidden');
+    document.getElementById('workout-title').classList.remove('hidden');
     document.getElementById('days-menu').classList.remove('hidden');
     treinoAtual = null;
 }
 
-// --- CALCULADORA ---
+// --- CALC, TIMER, SAVE ---
 function abrirCalculadora() { document.getElementById('calc-modal').classList.remove('hidden'); }
 function fecharCalculadora() { document.getElementById('calc-modal').classList.add('hidden'); }
 function calcularBarra() {
@@ -126,8 +115,6 @@ function calcularBarra() {
     document.getElementById('calc-total').innerText = total + ' kg';
     document.getElementById('calc-side-info').innerText = `${side} kg cada lado`;
 }
-
-// --- LÓGICA 1RM ---
 function calcular1RM(exIndex, totalSeries) {
     let maxRM = 0;
     for(let i=1; i<=totalSeries; i++) {
@@ -138,8 +125,6 @@ function calcular1RM(exIndex, totalSeries) {
     const display = document.getElementById(`rm_display_${exIndex}`);
     display.innerHTML = maxRM > 0 ? `1RM Est: <strong>${Math.round(maxRM)}kg</strong>` : "--";
 }
-
-// --- TIMER ---
 function iniciarTimer(segundos) {
     document.getElementById('timer-overlay').classList.remove('hidden');
     let tempo = segundos;
@@ -156,8 +141,6 @@ function iniciarTimer(segundos) {
     }, 1000);
 }
 function fecharTimer() { clearInterval(timerInterval); document.getElementById('timer-overlay').classList.add('hidden'); }
-
-// --- SALVAR ---
 function concluirTreino() {
     if (!treinoAtual || !confirm("Salvar treino?")) return;
     const hist = JSON.parse(localStorage.getItem('workout_history')) || [];
@@ -165,17 +148,13 @@ function concluirTreino() {
     const dataF = `${String(hoje.getDate()).padStart(2,'0')}/${String(hoje.getMonth()+1).padStart(2,'0')}/${hoje.getFullYear()}`;
     const notas = document.getElementById('workout-notes').value;
     const execs = [];
-
     treinoAtual.exercicios.forEach((ex, exIndex) => {
         const setsData = [];
         for(let i=1; i<=ex.series; i++) {
             const load = document.getElementById(`peso_${exIndex}_${i}`).value;
             const reps = document.getElementById(`reps_${exIndex}_${i}`).value;
-            
-            // Só salva se o usuário digitou algo
             if(load || reps) {
                 setsData.push({s:i, k:load, r:reps});
-                // ATUALIZA O FANTASMA (PLACEHOLDER) PARA A PRÓXIMA VEZ
                 localStorage.setItem(`hist_${treinoAtual.letra}_${exIndex}_s${i}_load`, load);
                 localStorage.setItem(`hist_${treinoAtual.letra}_${exIndex}_s${i}_reps`, reps);
             }
@@ -183,14 +162,11 @@ function concluirTreino() {
         const rpe = document.getElementById(`rpe_${exIndex}`).value;
         if(setsData.length > 0) execs.push({ nome: ex.nome, sets: setsData, rpe: rpe });
     });
-
     hist.unshift({ data: dataF, nome: `TREINO ${treinoAtual.letra}`, exercicios: execs, notes: notas, timestamp: new Date().getTime() });
     localStorage.setItem('workout_history', JSON.stringify(hist));
     alert("Treino Salvo! 💪");
     voltarMenu();
 }
-
-// --- UTILS ---
 function abrirPerfil() { document.getElementById('profile-modal').classList.remove('hidden'); }
 function fecharPerfil() { document.getElementById('profile-modal').classList.add('hidden'); }
 function salvarPerfil() { const p = document.getElementById('user-weight').value; if(p) localStorage.setItem('user_profile', JSON.stringify({ peso: p })); }
