@@ -9,12 +9,8 @@
     --font-body: 'Montserrat', sans-serif;
 }
 
-/* REMOVER SETAS DOS INPUTS NUMBER */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
+/* Remover setas input */
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 input[type=number] { -moz-appearance: textfield; }
 
 body {
@@ -26,17 +22,14 @@ body {
     padding: 15px;
     padding-bottom: 80px;
 }
-
 .container { max-width: 600px; margin: 0 auto; }
 
 /* HEADER */
 .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
 .logo-area h1 { font-family: var(--font-title); font-weight: 900; font-size: 1.5rem; margin: 0; letter-spacing: 1px; }
 .highlight { color: var(--neon-blue); text-shadow: 0 0 10px rgba(0, 240, 255, 0.5); }
-
 .btn-profile { background: none; border: 1px solid #333; color: var(--neon-blue); border-radius: 50%; width: 40px; height: 40px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
 .btn-profile:hover { background: var(--neon-blue); color: #000; box-shadow: 0 0 10px var(--neon-blue); }
-
 .workout-selector-container { text-align: center; margin-bottom: 20px; }
 #workout-select { background: #111; border: 1px solid #333; color: #fff; padding: 8px; border-radius: 6px; font-family: var(--font-body); font-size: 0.8rem; outline: none; width: 100%; }
 
@@ -45,15 +38,14 @@ body {
 .nav-btn { flex: 1; background: none; border: none; color: #666; padding: 8px; border-radius: 6px; cursor: pointer; display: flex; flex-direction: column; align-items: center; font-size: 0.65rem; font-family: var(--font-title); transition: 0.3s; }
 .nav-btn .material-icons { font-size: 1.2rem; margin-bottom: 3px; }
 .nav-btn.active { background: rgba(0, 240, 255, 0.1); color: var(--neon-blue); font-weight: bold; }
-
 .tab-content.hidden { display: none; }
 .tab-content.active { display: block; animation: fadeIn 0.3s; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-/* EXERCÍCIOS & SÉRIES (NOVO) */
+/* EXERCÍCIOS & SÉRIES */
 .grid-menu { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.card-day { background: linear-gradient(145deg, #1a1a1a, #0d0d0d); border: 1px solid #333; padding: 20px; border-radius: 8px; text-align: center; cursor: pointer; position: relative; overflow: hidden; }
-.card-day:hover { border-color: var(--neon-blue); }
+.card-day { background: linear-gradient(145deg, #1a1a1a, #0d0d0d); border: 1px solid #333; padding: 20px; border-radius: 8px; text-align: center; cursor: pointer; position: relative; overflow: hidden; transition: 0.3s; }
+.card-day:hover { border-color: var(--neon-blue); transform: translateY(-2px); }
 
 .exercise-card { background: #111; border-left: 3px solid #333; margin-bottom: 20px; padding: 15px; border-radius: 0 8px 8px 0; border: 1px solid #222; }
 .exercise-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
@@ -62,9 +54,9 @@ body {
 
 .meta-tags { display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap; }
 .tag { font-size: 0.7rem; background: #000; padding: 4px 8px; border-radius: 4px; color: #888; border: 1px solid #333; }
-.timer-btn { color: var(--neon-orange); border-color: var(--neon-orange); cursor: pointer; }
+.timer-btn { color: var(--neon-orange); border-color: var(--neon-orange); cursor: pointer; font-weight: bold; }
+.timer-btn:active { background: var(--neon-orange); color: #000; }
 
-/* GRID DE SÉRIES (O IMPORTANTE) */
 .sets-container { display: flex; flex-direction: column; gap: 8px; }
 .set-row { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.03); padding: 8px; border-radius: 4px; }
 .set-label { font-size: 0.7rem; color: #666; font-family: var(--font-title); width: 20px; text-align: center; }
@@ -76,18 +68,13 @@ body {
 /* 1RM DISPLAY & TOOLTIP */
 .rm-container { margin-top: 10px; display: flex; align-items: center; justify-content: flex-end; gap: 5px; font-size: 0.7rem; color: #666; }
 .rm-value { color: var(--neon-green); font-weight: bold; }
-.tooltip-icon { background: #333; color: #fff; border-radius: 50%; width: 14px; height: 14px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.6rem; cursor: help; position: relative; }
-.tooltip-icon:hover::after {
-    content: "1RM = Repetição Máxima Teórica. É uma estimativa do peso máximo que você aguentaria levantar uma única vez baseada nas suas reps atuais.";
-    position: absolute; bottom: 20px; right: 0; width: 200px; background: #222; border: 1px solid #444; color: #fff; padding: 10px; border-radius: 6px; z-index: 10; font-size: 0.7rem; line-height: 1.2;
-}
+.tooltip-icon { background: #333; color: #fff; border-radius: 50%; width: 16px; height: 16px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.7rem; cursor: pointer; }
 
 /* CALENDÁRIO */
 .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
 .view-switch { background: #1a1a1a; border-radius: 6px; padding: 2px; }
 .view-switch button { background: none; border: none; color: #666; padding: 5px 10px; font-size: 0.6rem; font-family: var(--font-title); cursor: pointer; }
 .view-switch button.active { background: var(--neon-blue); color: #000; }
-.weekdays-grid, .days-grid { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; gap: 5px; }
 .calendar-day { height: 35px; display: flex; align-items: center; justify-content: center; border-radius: 4px; font-size: 0.8rem; color: #444; background: #111; position: relative; }
 .calendar-day.today { border: 1px solid #fff; }
 .calendar-day.workout-a { background: rgba(0, 240, 255, 0.2); border: 1px solid var(--neon-blue); color: #fff; }
@@ -95,18 +82,17 @@ body {
 .calendar-day.workout-c { background: rgba(0, 255, 157, 0.2); border: 1px solid var(--neon-green); color: #fff; }
 .calendar-day.workout-d { background: rgba(255, 145, 0, 0.2); border: 1px solid var(--neon-orange); color: #fff; }
 
-/* MODAIS */
-.modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 999; display: flex; align-items: center; justify-content: center; }
-.modal-content { background: #111; border: 1px solid #333; width: 90%; max-width: 500px; border-radius: 8px; padding: 0; }
-.modal-header { padding: 15px; border-bottom: 1px solid #222; display: flex; justify-content: space-between; color: #fff; font-family: var(--font-title); }
-.close-modal { cursor: pointer; color: var(--neon-blue); }
-.profile-body { padding: 20px; }
-.profile-body input { width: 100%; background: #000; border: 1px solid #333; color: #fff; padding: 10px; font-size: 1.2rem; text-align: center; margin-top: 5px; }
-.backup-controls button { width: 100%; margin-top: 10px; background: #222; border: 1px solid #444; color: #ccc; padding: 10px; cursor: pointer; border-radius: 4px; }
-
 /* GRÁFICOS */
 .chart-container { background: #111; padding: 10px; border-radius: 8px; border: 1px solid #222; margin-bottom: 20px; }
 .chart-title { text-align: center; color: var(--neon-blue); font-size: 0.8rem; font-family: var(--font-title); margin-bottom: 10px; }
+
+/* NOVO TIMER OVERLAY (POPUP) */
+#timer-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+.timer-box { width: 250px; height: 250px; border: 4px solid var(--neon-orange); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 0 30px rgba(255, 145, 0, 0.3); background: #000; animation: pulse 1s infinite alternate; }
+@keyframes pulse { from { box-shadow: 0 0 10px rgba(255,145,0,0.2); } to { box-shadow: 0 0 30px rgba(255,145,0,0.6); } }
+.timer-label { font-family: var(--font-title); color: #aaa; font-size: 0.8rem; margin-bottom: 10px; letter-spacing: 2px; }
+.timer-clock h1 { font-family: var(--font-title); font-size: 4rem; margin: 0; color: #fff; text-shadow: 0 0 10px var(--neon-orange); }
+.timer-hint { margin-top: 15px; color: #555; font-size: 0.7rem; text-transform: uppercase; }
 
 /* UTILS */
 .hidden { display: none !important; }
@@ -116,3 +102,10 @@ body {
 .legenda-cores { display: flex; justify-content: center; gap: 15px; margin-top: 15px; font-size: 0.7rem; color: #888; }
 .dot { width: 8px; height: 8px; display: inline-block; border-radius: 50%; margin-right: 5px; }
 .dot.a { background: var(--neon-blue); } .dot.b { background: var(--neon-purple); } .dot.c { background: var(--neon-green); } .dot.d { background: var(--neon-orange); }
+.modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 999; display: flex; align-items: center; justify-content: center; }
+.modal-content { background: #111; border: 1px solid #333; width: 90%; max-width: 500px; border-radius: 8px; padding: 0; max-height: 80vh; overflow-y: auto; }
+.modal-header { padding: 15px; border-bottom: 1px solid #222; display: flex; justify-content: space-between; color: #fff; font-family: var(--font-title); }
+.close-modal { cursor: pointer; color: var(--neon-blue); }
+.profile-body { padding: 20px; }
+.details-list { list-style: none; padding: 20px; }
+.detail-item { display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 10px 0; font-size: 0.8rem; color: #ccc; }
