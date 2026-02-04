@@ -24,9 +24,15 @@
                     <span class="material-icons">fitness_center</span>
                     <h1>FITNESS <span class="highlight">GYM</span></h1>
                 </div>
-                <button class="btn-profile" onclick="abrirPerfil()">
-                    <span class="material-icons">person</span>
-                </button>
+                
+                <div class="header-actions">
+                    <button class="btn-icon" onclick="abrirCalculadora()">
+                        <span class="material-icons">calculate</span>
+                    </button>
+                    <button class="btn-icon" onclick="abrirPerfil()">
+                        <span class="material-icons">person</span>
+                    </button>
+                </div>
             </div>
             
             <div class="workout-selector-container">
@@ -58,7 +64,14 @@
                     <button onclick="voltarMenu()" class="btn-back">VOLTAR</button>
                     <h2 id="current-day-title">DIA A</h2>
                 </div>
+                
                 <div id="exercises-list"></div>
+
+                <div class="notes-area">
+                    <label><span class="material-icons" style="font-size:0.8rem; vertical-align:middle;">edit_note</span> NOTAS DO TREINO</label>
+                    <textarea id="workout-notes" placeholder="Como você se sentiu hoje? (Sono, energia, dores...)"></textarea>
+                </div>
+
                 <button class="btn-finish" onclick="concluirTreino()">FINALIZAR TREINO</button>
             </main>
         </section>
@@ -88,17 +101,39 @@
         </section>
 
         <section id="tab-stats" class="tab-content hidden">
-            <h3 class="chart-title">DISTRIBUIÇÃO DE TREINOS</h3>
+            <h3 class="chart-title">DISTRIBUIÇÃO</h3>
             <div class="chart-container">
                 <canvas id="chart-pie"></canvas>
             </div>
-
-            <h3 class="chart-title" style="margin-top:30px">EVOLUÇÃO POR TREINO (VOLUME KG)</h3>
-            <p style="text-align:center; font-size:0.7rem; color:#666;">Acompanhe a carga total movida em cada ficha separadamente.</p>
+            <h3 class="chart-title" style="margin-top:30px">VOLUME (KG) POR TREINO</h3>
             <div class="chart-container">
                 <canvas id="chart-line"></canvas>
             </div>
         </section>
+    </div>
+
+    <div id="calc-modal" class="modal hidden">
+        <div class="modal-content small-modal">
+            <div class="modal-header">
+                <span>CALCULADORA DE BARRA</span>
+                <span class="close-modal" onclick="fecharCalculadora()">✕</span>
+            </div>
+            <div class="calc-body">
+                <label>PESO DAS ANILHAS (TOTAL)</label>
+                <input type="number" id="calc-plates" placeholder="Ex: 80" oninput="calcularBarra()">
+                
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="calc-bar-check" onchange="calcularBarra()" checked>
+                    <label for="calc-bar-check">Somar Barra Olímpica (20kg)</label>
+                </div>
+
+                <div class="calc-result">
+                    <small>TOTAL REAL</small>
+                    <h1 id="calc-total">0 kg</h1>
+                    <p id="calc-side-info">0 kg cada lado</p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div id="profile-modal" class="modal hidden">
@@ -111,13 +146,10 @@
                 <label>PESO CORPORAL (KG)</label>
                 <input type="number" id="user-weight" placeholder="00.0" onchange="salvarPerfil()">
                 <hr style="border-color:#333; margin: 20px 0;">
-                <button onclick="gerarDadosDemo()" style="background:#ffcc00; color:#000; font-weight:bold; margin-bottom:15px; border:none; width:100%; padding:10px; border-radius:4px; cursor:pointer;">
-                    🧪 GERAR DADOS DE TESTE (DEMO)
-                </button>
-                <label>DADOS DO SISTEMA</label>
+                <button onclick="gerarDadosDemo()" class="btn-demo">🧪 GERAR DADOS DEMO</button>
                 <div class="backup-controls">
                     <button onclick="baixarBackup()">💾 Baixar Backup</button>
-                    <button onclick="document.getElementById('file-input').click()">📂 Restaurar Backup</button>
+                    <button onclick="document.getElementById('file-input').click()">📂 Restaurar</button>
                     <input type="file" id="file-input" style="display:none" onchange="restaurarBackup(this)">
                 </div>
             </div>
@@ -126,34 +158,25 @@
 
     <div id="video-modal" class="modal hidden">
         <div class="modal-content">
-            <div class="modal-header">
-                <span>EXECUÇÃO</span>
-                <span class="close-modal" onclick="fecharVideo()">✕</span>
-            </div>
+            <div class="modal-header"><span>EXECUÇÃO</span><span class="close-modal" onclick="fecharVideo()">✕</span></div>
             <div id="video-container"></div>
         </div>
     </div>
-
     <div id="history-modal" class="modal hidden">
         <div class="modal-content">
-            <div class="modal-header">
-                <span id="history-date-title">DETALHES</span>
-                <span class="close-modal" onclick="fecharHistorico()">✕</span>
-            </div>
+            <div class="modal-header"><span>DETALHES</span><span class="close-modal" onclick="fecharHistorico()">✕</span></div>
             <ul id="history-details-list" class="details-list"></ul>
+            <div id="history-notes-display" style="padding:15px; color:#888; font-size:0.8rem; border-top:1px solid #333; font-style:italic;"></div>
         </div>
     </div>
-
     <div id="timer-overlay" class="hidden" onclick="fecharTimer()">
         <div class="timer-box">
             <span class="timer-label">DESCANSO</span>
-            <div class="timer-clock">
-                <h1 id="timer-countdown">00:00</h1>
-            </div>
-            <p class="timer-hint">Toque na tela para fechar</p>
+            <div class="timer-clock"><h1 id="timer-countdown">00:00</h1></div>
+            <p class="timer-hint">Toque para fechar</p>
         </div>
     </div>
 
-    <script src="app.js?v=7"></script>
+    <script src="app.js?v=8"></script>
 </body>
 </html>
