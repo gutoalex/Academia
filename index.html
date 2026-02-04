@@ -51,7 +51,6 @@
 
         <section id="tab-treino" class="tab-content active">
             <p id="workout-title" class="section-title">Carregando...</p>
-
             <div id="days-menu" class="grid-menu"></div>
 
             <main id="workout-area" class="hidden">
@@ -59,12 +58,8 @@
                     <button onclick="voltarMenu()" class="btn-back">VOLTAR</button>
                     <h2 id="current-day-title">DIA A</h2>
                 </div>
-                
                 <div id="exercises-list"></div>
-
-                <button class="btn-finish" onclick="concluirTreino()">
-                    FINALIZAR TREINO
-                </button>
+                <button class="btn-finish" onclick="concluirTreino()">FINALIZAR TREINO</button>
             </main>
         </section>
 
@@ -74,19 +69,16 @@
                     <button id="btn-view-month" onclick="alternarModo('mensal')">MÊS</button>
                     <button id="btn-view-week" class="active" onclick="alternarModo('semanal')">SEMANA</button>
                 </div>
-                
                 <div class="calendar-nav">
                     <button onclick="navegarCalendario(-1)">❮</button>
                     <span id="calendar-month-year">DATA</span>
                     <button onclick="navegarCalendario(1)">❯</button>
                 </div>
             </div>
-            
             <div class="weekdays-grid">
                 <div>D</div><div>S</div><div>T</div><div>Q</div><div>Q</div><div>S</div><div>S</div>
             </div>
             <div id="calendar-days" class="days-grid"></div>
-
             <div class="legenda-cores">
                 <span><span class="dot a"></span> A</span>
                 <span><span class="dot b"></span> B</span>
@@ -101,13 +93,12 @@
                 <canvas id="chart-pie"></canvas>
             </div>
 
-            <h3 class="chart-title" style="margin-top:30px">VOLUME DE CARGA (KG TOTAIS)</h3>
-            <p style="text-align:center; font-size:0.7rem; color:#666;">Soma de (Peso x Reps) de todas as séries</p>
+            <h3 class="chart-title" style="margin-top:30px">EVOLUÇÃO POR TREINO (VOLUME KG)</h3>
+            <p style="text-align:center; font-size:0.7rem; color:#666;">Acompanhe a carga total movida em cada ficha separadamente.</p>
             <div class="chart-container">
                 <canvas id="chart-line"></canvas>
             </div>
         </section>
-
     </div>
 
     <div id="profile-modal" class="modal hidden">
@@ -119,9 +110,10 @@
             <div class="profile-body">
                 <label>PESO CORPORAL (KG)</label>
                 <input type="number" id="user-weight" placeholder="00.0" onchange="salvarPerfil()">
-                
                 <hr style="border-color:#333; margin: 20px 0;">
-                
+                <button onclick="gerarDadosDemo()" style="background:#ffcc00; color:#000; font-weight:bold; margin-bottom:15px; border:none; width:100%; padding:10px; border-radius:4px; cursor:pointer;">
+                    🧪 GERAR DADOS DE TESTE (DEMO)
+                </button>
                 <label>DADOS DO SISTEMA</label>
                 <div class="backup-controls">
                     <button onclick="baixarBackup()">💾 Baixar Backup</button>
@@ -154,12 +146,14 @@
 
     <div id="timer-overlay" class="hidden" onclick="fecharTimer()">
         <div class="timer-box">
-            <span>DESCANSO</span>
-            <h1 id="timer-countdown">00:00</h1>
-            <p>Toque para fechar</p>
+            <span class="timer-label">DESCANSO</span>
+            <div class="timer-clock">
+                <h1 id="timer-countdown">00:00</h1>
+            </div>
+            <p class="timer-hint">Toque na tela para fechar</p>
         </div>
     </div>
 
-    <script src="app.js?v=6"></script>
+    <script src="app.js?v=7"></script>
 </body>
 </html>
