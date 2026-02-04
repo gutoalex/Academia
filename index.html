@@ -2,8 +2,8 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FITNESS GYM TRACKER</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GUSTAVO.ANJOS GYM</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,7 +24,7 @@
                 </div>
                 
                 <div class="header-actions">
-                    <button class="btn-icon" onclick="abrirCalculadora()" title="Calculadora de Anilhas">
+                    <button class="btn-icon" onclick="abrirCalculadora()" title="Calculadora">
                         <span class="material-icons">calculate</span>
                     </button>
                     <button class="btn-icon" onclick="abrirPerfil()" title="Perfil">
@@ -62,14 +62,11 @@
                     <button onclick="voltarMenu()" class="btn-back">VOLTAR</button>
                     <h2 id="current-day-title">DIA A</h2>
                 </div>
-                
                 <div id="exercises-list"></div>
-
                 <div class="notes-area">
                     <label><span class="material-icons" style="font-size:0.8rem; vertical-align:middle;">edit_note</span> NOTAS DO TREINO</label>
-                    <textarea id="workout-notes" placeholder="Como foi o treino hoje? (Energia, dores, foco...)"></textarea>
+                    <textarea id="workout-notes" placeholder="Como foi o treino? (Sono, energia, dores...)"></textarea>
                 </div>
-
                 <button class="btn-finish" onclick="concluirTreino()">FINALIZAR TREINO</button>
             </main>
         </section>
@@ -106,10 +103,7 @@
 
     <div id="calc-modal" class="modal hidden">
         <div class="modal-content small-modal">
-            <div class="modal-header">
-                <span>CALCULADORA DE BARRA</span>
-                <span class="close-modal" onclick="fecharCalculadora()">✕</span>
-            </div>
+            <div class="modal-header"><span>CALCULADORA</span><span class="close-modal" onclick="fecharCalculadora()">✕</span></div>
             <div class="calc-body">
                 <label>PESO DAS ANILHAS (TOTAL)</label>
                 <input type="number" id="calc-plates" placeholder="Ex: 80" oninput="calcularBarra()">
@@ -130,14 +124,14 @@
 
     <div id="profile-modal" class="modal hidden">
         <div class="modal-content small-modal">
-            <div class="modal-header"><span>MEU PERFIL</span><span class="close-modal" onclick="fecharPerfil()">✕</span></div>
+            <div class="modal-header"><span>PERFIL</span><span class="close-modal" onclick="fecharPerfil()">✕</span></div>
             <div class="profile-body">
-                <label>PESO CORPORAL (KG)</label>
+                <label>PESO (KG)</label>
                 <input type="number" id="user-weight" placeholder="00.0" onchange="salvarPerfil()">
                 <hr style="border-color:#333; margin: 20px 0;">
                 <button onclick="gerarDadosDemo()" class="btn-demo">🧪 GERAR DADOS DEMO</button>
                 <div class="backup-controls">
-                    <button onclick="baixarBackup()">💾 Baixar Backup</button>
+                    <button onclick="baixarBackup()">💾 Baixar</button>
                     <button onclick="document.getElementById('file-input').click()">📂 Restaurar</button>
                     <input type="file" id="file-input" style="display:none" onchange="restaurarBackup(this)">
                 </div>
@@ -147,10 +141,11 @@
 
     <div id="video-modal" class="modal hidden">
         <div class="modal-content">
-            <div class="modal-header"><span>EXECUÇÃO</span><span class="close-modal" onclick="fecharVideo()">✕</span></div>
+            <div class="modal-header"><span>VÍDEO</span><span class="close-modal" onclick="fecharVideo()">✕</span></div>
             <div id="video-container"></div>
         </div>
     </div>
+    
     <div id="history-modal" class="modal hidden">
         <div class="modal-content">
             <div class="modal-header"><span>DETALHES</span><span class="close-modal" onclick="fecharHistorico()">✕</span></div>
@@ -158,6 +153,7 @@
             <div id="history-notes-display" style="padding:15px; color:#888; font-size:0.8rem; border-top:1px solid #333; font-style:italic;"></div>
         </div>
     </div>
+
     <div id="timer-overlay" class="hidden" onclick="fecharTimer()">
         <div class="timer-box">
             <span class="timer-label">DESCANSO</span>
@@ -166,6 +162,6 @@
         </div>
     </div>
 
-    <script src="app.js?v=9"></script>
+    <script src="app.js?v=11"></script>
 </body>
 </html>
